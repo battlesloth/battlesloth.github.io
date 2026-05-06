@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="winter">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AstrOs - Astromech Operating System</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: 'distant_galaxyregular';
+        src: url('assets/fonts/DISTGRG_-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      .font-starwars {
+        font-family: 'distant_galaxyregular', sans-serif;
+      }
+
+      .btn-primary {
+        background-color: #2a5a97 !important;
+        color: white !important;
+        border-color: #2a5a97 !important;
+      }
+
+      .btn-primary:hover {
+        background-color: #2f445c !important;
+        border-color: #2f445c !important;
+      }
+
+      .bg-primary {
+        background-color: #2a5a97 !important;
+      }
+
+      .bg-r2-light {
+        background-color: #548c9c;
+      }
+
+      .bg-r2-xlight {
+        background-color: #cbdce1;
+      }
+
+      .bg-r2-complement {
+        background-color: #f49446;
+        color: black;
+      }
+
+      .text-primary {
+        color: #2a5a97 !important;
+      }
+
+      .border-primary {
+        border-color: #2a5a97 !important;
+      }
+
+      .project-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(42, 90, 151, 0.15);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-base-100">
+    <!-- Navbar -->
+    <header class="navbar bg-primary text-white shadow-md sticky top-0 z-50">
+      <div class="container mx-auto px-4 flex items-center">
+        <div class="font-starwars flex items-baseline gap-0.5">
+          <span class="text-4xl">A</span>
+          <span class="text-3xl">str</span>
+          <span class="text-4xl">O</span>
+          <span class="text-3xl">s</span>
+        </div>
+        <span class="ml-3 text-sm opacity-80 hidden sm:inline">Astromech Operating System</span>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-r2-xlight py-16 px-4">
+      <div class="container mx-auto text-center max-w-3xl">
+        <div class="font-starwars flex items-baseline justify-center gap-0.5 mb-6">
+          <span class="text-6xl sm:text-8xl text-primary">A</span>
+          <span class="text-5xl sm:text-7xl text-primary">str</span>
+          <span class="text-6xl sm:text-8xl text-primary">O</span>
+          <span class="text-5xl sm:text-7xl text-primary">s</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+          Astromech Operating System
+        </h1>
+        <p class="text-gray-700 text-lg leading-relaxed mb-8">
+          A turnkey animation scripting and control solution for R2 builders. AstrOs provides a
+          complete ecosystem — from the server-side scripting interface to the ESP32 firmware
+          running on your droid — so you can focus on bringing your astromech to life.
+        </p>
+        <div class="flex flex-wrap gap-3 justify-center">
+          <a
+            href="https://github.com/battlesloth"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary rounded-lg px-6 py-2 font-semibold"
+          >
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="py-16 px-4">
+      <div class="container mx-auto max-w-6xl">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Projects</h2>
+        <p class="text-center text-gray-600 mb-12">
+          The AstrOs ecosystem is made up of several interconnected repositories.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- AstrOs.Server Card -->
+          <div class="card bg-base-100 border border-gray-200 shadow-md project-card">
+            <div class="card-body">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="bg-r2-light rounded-lg p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-7 w-7 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl font-starwars text-primary">
+                    <span class="text-2xl">A</span>str<span class="text-2xl">O</span>s.Server
+                  </h3>
+                  <span class="badge badge-sm bg-r2-complement border-0 text-black font-semibold">
+                    TypeScript
+                  </span>
+                </div>
+              </div>
+              <p class="text-gray-700 mb-4">
+                A Node.js/Express server with a Vue 3 frontend for designing animations and
+                managing microcontroller configurations. Runs in a Docker container on a single
+                board computer (Raspberry Pi, Orange Pi) with serial port access.
+              </p>
+              <ul class="text-sm text-gray-600 space-y-1 mb-6">
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Animation scripting interface
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Microcontroller configuration management
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Playlist and remote control support
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Docker-based deployment
+                </li>
+              </ul>
+              <div class="card-actions justify-end mt-auto">
+                <a
+                  href="https://github.com/battlesloth/AstrOs.Server"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary btn-sm rounded-lg"
+                >
+                  View Repository
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AstrOs.ESP Card -->
+          <div class="card bg-base-100 border border-gray-200 shadow-md project-card">
+            <div class="card-body">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="bg-r2-light rounded-lg p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-7 w-7 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl font-starwars text-primary">
+                    <span class="text-2xl">A</span>str<span class="text-2xl">O</span>s.ESP
+                  </h3>
+                  <span class="badge badge-sm bg-r2-complement border-0 text-black font-semibold">
+                    C / ESP32
+                  </span>
+                </div>
+              </div>
+              <p class="text-gray-700 mb-4">
+                The firmware for ESP32-based AstrOs microcontroller nodes. Receives animation
+                commands from the AstrOs Server via serial communication and drives servos, sound
+                boards, and other droid electronics.
+              </p>
+              <ul class="text-sm text-gray-600 space-y-1 mb-6">
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> ESP32 firmware via PlatformIO
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Serial communication protocol
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Servo, sound, and I2C module control
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Pairs with AstrOs.Server
+                </li>
+              </ul>
+              <div class="card-actions justify-end mt-auto">
+                <a
+                  href="https://github.com/battlesloth/AstrOs.ESP"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary btn-sm rounded-lg"
+                >
+                  View Repository
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AstrOs.Screen Card -->
+          <div class="card bg-base-100 border border-gray-200 shadow-md project-card">
+            <div class="card-body">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="bg-r2-light rounded-lg p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-7 w-7 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl font-starwars text-primary">
+                    <span class="text-2xl">A</span>str<span class="text-2xl">O</span>s.Screen
+                  </h3>
+                  <span class="badge badge-sm bg-r2-complement border-0 text-black font-semibold">
+                    C / ESP-IDF
+                  </span>
+                </div>
+              </div>
+              <p class="text-gray-700 mb-4">
+                A portable touchscreen remote for triggering AstrOs animations. Runs on an Elecrow
+                5" ESP32 display, syncs button configurations from the AstrOs Server, and allows
+                on-the-floor control of your droid at events.
+              </p>
+              <ul class="text-sm text-gray-600 space-y-1 mb-6">
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Touch-friendly animation trigger grid
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> WiFi connectivity with panic stop
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Syncs config from AstrOs Server
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Built with LVGL &amp; Squareline Studio
+                </li>
+              </ul>
+              <div class="card-actions justify-end mt-auto">
+                <a
+                  href="https://github.com/battlesloth/AstrOs.Screen"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary btn-sm rounded-lg"
+                >
+                  View Repository
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- AstrOs.Paper Card -->
+          <div class="card bg-base-100 border border-gray-200 shadow-md project-card">
+            <div class="card-body">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="bg-r2-light rounded-lg p-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-7 w-7 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="card-title text-xl font-starwars text-primary">
+                    <span class="text-2xl">A</span>str<span class="text-2xl">O</span>s.Paper
+                  </h3>
+                  <span class="badge badge-sm bg-r2-complement border-0 text-black font-semibold">
+                    C
+                  </span>
+                </div>
+              </div>
+              <p class="text-gray-700 mb-4">
+                An e-paper display module for the AstrOs ecosystem, enabling low-power status
+                displays and information readouts for your astromech build.
+              </p>
+              <ul class="text-sm text-gray-600 space-y-1 mb-6">
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> E-paper display support
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> Low-power operation
+                </li>
+                <li class="flex items-center gap-2">
+                  <span class="text-primary">✦</span> AstrOs ecosystem integration
+                </li>
+              </ul>
+              <div class="card-actions justify-end mt-auto">
+                <a
+                  href="https://github.com/battlesloth/AstrOs.Paper"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn-primary btn-sm rounded-lg"
+                >
+                  View Repository
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="bg-r2-xlight py-16 px-4">
+      <div class="container mx-auto max-w-4xl text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
+        <p class="text-gray-700 mb-10 text-lg">
+          AstrOs connects a scripting server to one or more ESP32 nodes in your droid, with
+          optional touchscreen and e-paper peripherals for event use.
+        </p>
+        <div class="flex flex-wrap justify-center items-center gap-2 text-sm font-semibold">
+          <div class="bg-white rounded-xl px-5 py-4 shadow border border-gray-200 min-w-32">
+            <div class="font-starwars text-primary mb-1">
+              <span class="text-xl">A</span>str<span class="text-xl">O</span>s.Server
+            </div>
+            <div class="text-gray-600 text-xs">Web UI &amp; API</div>
+          </div>
+          <div class="text-2xl text-primary px-1">→</div>
+          <div class="bg-white rounded-xl px-5 py-4 shadow border border-gray-200 min-w-32">
+            <div class="font-starwars text-primary mb-1">
+              <span class="text-xl">A</span>str<span class="text-xl">O</span>s.ESP
+            </div>
+            <div class="text-gray-600 text-xs">ESP32 Node(s)</div>
+          </div>
+          <div class="text-2xl text-primary px-1">→</div>
+          <div class="bg-white rounded-xl px-5 py-4 shadow border border-gray-200 min-w-32">
+            <div class="text-gray-700 font-bold mb-1">Droid Hardware</div>
+            <div class="text-gray-600 text-xs">Servos, Sound, LEDs</div>
+          </div>
+        </div>
+        <div class="flex flex-wrap justify-center items-center gap-6 mt-8 text-sm">
+          <div class="flex items-center gap-2 text-gray-700">
+            <div class="bg-r2-light rounded-lg p-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"
+                />
+              </svg>
+            </div>
+            <span>AstrOs.Screen — touchscreen remote</span>
+          </div>
+          <div class="flex items-center gap-2 text-gray-700">
+            <div class="bg-r2-light rounded-lg p-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                />
+              </svg>
+            </div>
+            <span>AstrOs.Paper — e-paper display</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-8 px-4">
+      <div class="container mx-auto text-center">
+        <div class="font-starwars flex items-baseline justify-center gap-0.5 mb-3">
+          <span class="text-3xl">A</span>
+          <span class="text-2xl">str</span>
+          <span class="text-3xl">O</span>
+          <span class="text-2xl">s</span>
+        </div>
+        <p class="text-sm opacity-80 mb-3">
+          Open source astromech animation system. Licensed under GPL-3.0.
+        </p>
+        <a
+          href="https://github.com/battlesloth"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm opacity-80 hover:opacity-100 underline"
+        >
+          github.com/battlesloth
+        </a>
+      </div>
+    </footer>
+  </body>
+</html>
