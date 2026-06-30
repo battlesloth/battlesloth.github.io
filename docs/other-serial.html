@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Other Serial Modules · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Other Serial</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Modules &amp; Hardware · Serial</span>
+          <h1>Other serial modules.</h1>
+          <p class="lead">Besides the <a class="inline" href="maestro.html">Maestro</a>, AstrOs supports a few
+            other serial devices. They all share the same simple setup — a name, a UART channel and a baud rate —
+            and differ only in what they are:</p>
+          <ul>
+            <li><strong>Human Cyborg Relations</strong> — an HCR sound &amp; lighting board.</li>
+            <li><strong>Kangaroo X2</strong> — a Dimension Engineering motion controller.</li>
+            <li><strong>Generic</strong> — any other serial device.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Add one</h2>
+          <p>On the <a class="inline" href="modules.html">Modules</a> screen, expand the location whose node the
+            device is wired to, select <strong>+</strong> on <strong>Serial Modules</strong>, choose its type
+            (<strong>Human Cyborg Relations</strong>, <strong>Kangaroo X2</strong> or <strong>Generic</strong>),
+            then <strong>Add Module</strong>. Expand the new row to configure it.</p>
+
+          <h2><span class="h2-num">§</span>Settings</h2>
+          <figure class="shot">
+            <img src="assets/images/web/serial-other.png" alt="A generic serial module showing its Name, UART channel and baud rate" />
+            <figcaption>Every one of these uses the same three settings.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Name</strong> — a label for the device, so you can tell it apart in scripts.</li>
+            <li><strong>UART channel</strong> — which of the node's serial channels it's wired to.</li>
+            <li><strong>Baud rate</strong> — the serial speed (<code>9600</code>–<code>115200</code>). It must
+              match the speed the device itself is set to.</li>
+          </ul>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Driving servos?</span>
+              <p>Servos run through a <a class="inline" href="maestro.html">Pololu Maestro</a>, which has its own
+                richer setup — these serial modules just open a serial link.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="modules.html">Modules &amp; hardware</a> to finish this node, then
+            <strong>Save</strong> and <strong>Sync</strong>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
