@@ -25,6 +25,7 @@
           children: [
             { title: "Maestro", file: "maestro.html" },
             { title: "Other serial", file: "other-serial.html" },
+            { title: "I²C modules", file: "i2c.html" },
           ],
         },
       ],
