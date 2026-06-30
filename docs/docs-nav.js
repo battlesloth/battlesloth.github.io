@@ -24,6 +24,7 @@
         { num: "06", title: "Modules & hardware",  file: "modules.html",
           children: [
             { title: "Maestro", file: "maestro.html" },
+            { title: "Other serial", file: "other-serial.html" },
           ],
         },
       ],
