@@ -18,9 +18,11 @@
     },
     {
       title: "Using AstrOs",
-      soon: true,
-      note: "Scripting, playlists & remote — coming soon",
-      items: [],
+      note: "More chapters coming soon",
+      items: [
+        { num: "05", title: "The web app",        file: "web-app.html" },
+        { num: "06", title: "Modules & hardware",  file: "modules.html" },
+      ],
     },
   ];
 
@@ -47,7 +49,7 @@
           );
         })
         .join("");
-      if (g.soon && g.note) items += '<div class="sb-soon">' + g.note + "</div>";
+      if (g.note) items += '<div class="sb-soon">' + g.note + "</div>";
       groups +=
         '<div class="sb-group' + (g.soon ? " is-soon" : "") + '">' +
         '<div class="sb-group-title">' + g.title + "</div>" +
