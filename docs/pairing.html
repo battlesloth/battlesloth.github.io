@@ -44,7 +44,6 @@
           <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
           <span>Setup Guide</span><span class="sep">/</span><b>Pairing Nodes</b>
         </div>
-        <span class="ver-pill">v1.0 · beta</span>
       </header>
       <main class="content">
         <article>
@@ -78,12 +77,12 @@
               <div class="topo-node">
                 <div class="tn-role">Padawan</div>
                 <div class="tn-name">Node 1</div>
-                <div class="tn-sub">dome servos</div>
+                <div class="tn-sub">Dome</div>
               </div>
               <div class="topo-node">
                 <div class="tn-role">Padawan</div>
                 <div class="tn-name">Node 2</div>
-                <div class="tn-sub">body / sound</div>
+                <div class="tn-sub">Core</div>
               </div>
             </div>
           </div>
@@ -116,7 +115,7 @@
             <li>
               <span class="step-n">2</span>
               <div class="step-h">Turn on Discovery Mode on the Master</div>
-              <p>On the Master, hold down the ESP32 Mode button for 5 seconds. The Mode button is the button you connected to the 
+              <p>On the Master, hold down the ESP32 Mode button for 5 seconds to enter <strong>Discovery Mode</strong> — the master's pairing mode. The Mode button is the button you connected to the
                 ESP32, not any of the built in buttons. On release, the OLED should display "Discovery Mode On". It listens for ESP-NOW 
                 registration messages from the padawans and records each one's MAC address as a known peer. 
                 Roles and peers are saved to each board's storage, so they're remembered across reboots.</p>
@@ -124,14 +123,14 @@
             <li>
               <span class="step-n">3</span>
               <div class="step-h">Register each Padawan</div>
-              <p>On each padawan, press the ESP32 Mode button for 5 seconds. The padawan will send a registration message to the 
+              <p>On each padawan, hold the ESP32 Mode button for 5 seconds. The padawan will send a registration message to the 
                 master. The master responds with the Padawan's assigned name. Once registered, the padawan will display its 
                 assigned name on the OLED and automatically exit discovery mode.</p>
             </li>
             <li>
               <span class="step-n">4</span>
               <div class="step-h">Turn off Discovery Mode on the Master</div>
-              <p>Once you have registered all padawans, turn off Discovery Mode on the Master by pressing the ESP32 Mode button for 5 seconds. On release, the OLED should display "Discovery Mode Off" and change to
+              <p>Once you have registered all padawans, turn off Discovery Mode on the Master by holding the ESP32 Mode button for 5 seconds. On release, the OLED should display "Discovery Mode Off" and change to
                  "Master Node" after a few seconds.
               </p>
             </li>
@@ -145,7 +144,7 @@
               <span class="step-n">6</span>
               <div class="step-h">Push your configuration</div>
               <p>Send the configuration from the server by clicking the "Sync" button in the Modules page. Your servo, 
-                serial, I2C, and GPIO module assignments flow out to the master and on to each padawan, so every node 
+                serial, I²C, and GPIO module assignments flow out to the master and on to each padawan, so every node 
                 knows which hardware it owns.</p>
             </li>
             <li>
@@ -153,7 +152,7 @@
               <div class="step-h">Confirm the link is healthy</div>
               <p>The Status page in AstrOs.Server shows the health of the link between the master and each padawan. 
                  Ensure all nodes are communicating correctly. A greyed out section indicates a node is not responding. Blinking red
-                indicates a node's firmware is not compatible with the server and needs updated. Blinking yellow indicates a node's 
+                indicates a node's firmware is not compatible with the server and needs updating. Blinking yellow indicates a node's 
                 configuration is out of sync and you need to sync the configuration from the modules page.</p>
             </li>
           </ol>

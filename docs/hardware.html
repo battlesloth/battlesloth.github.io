@@ -26,7 +26,6 @@
           <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
           <span>Setup Guide</span><span class="sep">/</span><b>Hardware &amp; Wiring</b>
         </div>
-        <span class="ver-pill">v1.0 · beta</span>
       </header>
       <main class="content">
         <article>
@@ -59,7 +58,7 @@
               <span class="co-title">Warpcell Shields</span>
               <p>
                 The Warpcell shields are a convenient way to wire up your Metro ESP32-S3. They simplify the process by providing easy-to-use connectors and are designed to 
-              work seemlessly with the Warpcell ecosystem. The below information is still a useful reference, but you may not need to follow it exactly if you're using the shields.</p>
+              work seamlessly with the Warpcell ecosystem. The below information is still a useful reference, but you may not need to follow it exactly if you're using the shields.</p>
               </div>
           </div>
 
@@ -70,20 +69,17 @@
           <div class="pinmap">
             <div class="pinmap-grid">
               <!-- LEFT -->
-             <div class="pin-col left">
+              <div class="pin-col left">
                 <div class="pin-row">
                   <span class="pin-badge fn-pwr">3.3</span>
                   <span class="pin-lead"></span>
                   <span class="pin-label"><b>3.3 VDC</b> · 3.3 VDC output</span>
-              </div>
-              <div class="pin-col left">
+                </div>
                 <div class="pin-row">
                   <span class="pin-badge fn-pwr">GND</span>
                   <span class="pin-lead"></span>
                   <span class="pin-label"><b>Ground</b> · Common ground connection</span>
                 </div>
-              </div>
-              <div class="pin-col left">
                 <div class="pin-row">
                   <span class="pin-badge fn-uart">A3</span>
                   <span class="pin-lead"></span>
@@ -97,7 +93,7 @@
                 <div class="pin-row">
                   <span class="pin-badge fn-pwr">A5</span>
                   <span class="pin-lead"></span>
-                  <span class="pin-label"><b>Reset button</b></span>
+                  <span class="pin-label"><b>Mode button</b></span>
                 </div>
               </div>
 
@@ -152,7 +148,7 @@
             <code>SCL&nbsp;(IO&nbsp;48)</code>. Because the Metro has a STEMMA QT connector, you can daisy-chain
             STEMMA QT devices with no soldering. Each device needs a unique address. The OLED has a default address of <code>0x3C (60)</code>.</p>
           <ul>
-            <li><strong>SSD1306 OLED</strong> a small status display for the node's role and health.</li>
+            <li><strong>SSD1306 OLED</strong> — a small status display for the node's role and health.</li>
           </ul>
 
           <h3>The serial channels — sound &amp; smart peripherals</h3>
@@ -185,7 +181,7 @@
             <div>
               <span class="co-title">I²C Connections</span>
               <p>I²C connections require 3 wires: data (SDA) and clock (SCL), plus a common ground (GND). Unlike Serial connections, the SDA and SCL pins of each device connect to the
-                corresponding pins on the master device. Always connect the GND pins together to establish a common reference. </p>
+                corresponding pins on the controller (the node's Metro). Always connect the GND pins together to establish a common reference. </p>
             </div>
           </div>
 
@@ -203,14 +199,14 @@
                 <tr><td><span class="pin-chip fn-uart">UART 2 TX</span></td><td>A3</td><td><code>17</code></td><td>Serial peripheral — transmit</td></tr>
                 <tr><td><span class="pin-chip fn-uart">UART 2 RX</span></td><td>A4</td><td><code>18</code></td><td>Serial peripheral — receive</td></tr>
                 <tr><td><span class="pin-chip fn-gpio">GPIO 0–9</span></td><td>D2 – D11</td><td><code>2 – 11</code></td><td>10× general-purpose outputs</td></tr>
-                <tr><td><span class="pin-chip fn-pwr">Reset</span></td><td>A5</td><td><code>1</code></td><td>Reset / factory-reset button (input)</td></tr>
+                <tr><td><span class="pin-chip fn-pwr">Mode</span></td><td>A5</td><td><code>1</code></td><td>Mode button — wake display, pair, factory-reset (input)</td></tr>
               </tbody>
             </table>
           </div>
           
           <h2><span class="h2-num">§</span>ESP32 Mode Button</h2>
           <p>The ESP32 Mode Button allows you to switch between different operational modes. Tapping the button temporarily brings the OLED display to life, showing the current name of the
-            node. Holding the button for 5 seconds toggles the pairing mode. Holding the button for 10 seconds performs a factory reset.</p>
+            node. Holding the button for 5 seconds toggles Discovery Mode — the mode used to pair nodes (see <a class="inline" href="pairing.html">Pairing Nodes</a>). Holding the button for 10 seconds performs a factory reset.</p>
 
           <p>Wire it <strong>active-high</strong>: the button feeds 3.3&nbsp;V into the input pin when pressed, and a
             10&nbsp;kΩ resistor pulls the pin to ground the rest of the time so it never floats.</p>

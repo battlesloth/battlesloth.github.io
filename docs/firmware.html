@@ -41,7 +41,6 @@
           <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
           <span>Setup Guide</span><span class="sep">/</span><b>Flashing Firmware</b>
         </div>
-        <span class="ver-pill">v1.0 · beta</span>
       </header>
       <main class="content">
         <article>
@@ -49,8 +48,8 @@
           <h1>Flash the AstrOs.ESP firmware.</h1>
           <p class="lead">Every node runs the same firmware — <code>AstrOs.ESP</code>, built with PlatformIO and
             ESP-IDF. Flashing over USB is a <strong>one-time</strong> bootstrap; once a board is running, future
-            updates arrive wirelessly from the web app. First you'll prep an SD card, then install the toolchain
-            and flash each Metro over USB-C.</p>
+            updates arrive wirelessly from the web app. First you'll prep an SD card, then flash each Metro over
+            USB-C — either with a prebuilt binary or your own build.</p>
 
           <p>Pick how you'll flash each board — the steps below update to match.</p>
           <div class="flash-paths">
@@ -95,15 +94,15 @@
           <section class="flow-panel" data-path="prebuilt">
           <h2><span class="h2-num">§</span>Flash a prebuilt release</h2>
           <p>No toolchain required — download a ready-made binary and write it to each Metro over USB-C.</p>
-          
+
           <div class="callout warn">
-                <div class="ic">!</div>
-                <div>
-                  <span class="co-title">Grab the right file</span>
-                  <p>Use the <code>metro_s3-flash.bin</code> — <em>not</em> <code>lolin_d32_pro</code> (a different
-                    board) and <em>not</em> <code>metro_s3-app.bin</code> (that one's only for over-the-air updates
-                    through the web app).</p>
-                </div>
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Grab the right file</span>
+              <p>Use the <code>metro_s3-flash.bin</code> — <em>not</em> <code>lolin_d32_pro</code> (a different
+                board) and <em>not</em> <code>metro_s3-app.bin</code> (that one's only for over-the-air updates
+                through the web app).</p>
+            </div>
           </div>
 
           <ol class="steps">
@@ -237,11 +236,12 @@
           </section>
 
           <h2><span class="h2-num">§</span>Confirm it's alive</h2>
-          <p>Open the serial monitor. A freshly flashed node boots up and logs its startup sequence at
-            <code>115200</code> baud on the USB-C connection — including whether it came up as <strong>Master</strong> or
-            <strong>Padawan</strong>, as read from <code>config.txt</code>. If you wired up an SSD1306 OLED, it'll show
-            the node's status too. Registering nodes, discovering peers and pushing each node's hardware config
-            happens in the Pairing Nodes section.</p>
+          <p>Open a serial monitor — the Adafruit WebSerial ESPTool has one built in, or run
+            <code>pio device monitor</code> if you built from source. A freshly flashed node boots up and logs its
+            startup sequence at <code>115200</code> baud on the USB-C connection — including whether it came up as
+            <strong>Master</strong> or <strong>Padawan</strong>, as read from <code>config.txt</code>. If you wired up
+            an SSD1306 OLED, it'll show the node's status too. Registering nodes, discovering peers and pushing each
+            node's hardware config happen in the Pairing Nodes section.</p>
 
           <div class="callout tip">
             <div class="ic">✦</div>

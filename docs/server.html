@@ -17,7 +17,6 @@
           <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
           <span>Setup Guide</span><span class="sep">/</span><b>Server Setup</b>
         </div>
-        <span class="ver-pill">v1.0 · beta</span>
       </header>
       <main class="content">
         <article>
@@ -45,8 +44,15 @@
 
           <h2><span class="h2-num">§</span>Free up the serial port</h2>
           <p>The container talks to your master node through the Pi's hardware UART. By default the Pi uses that
-            port for a login console — you need to turn the console off and the serial hardware on. NOTE: Orange Pi 
-            requires significantly different steps - consult your board's documentation.</p>
+            port for a login console — you need to turn the console off and the serial hardware on.</p>
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Using an Orange Pi?</span>
+              <p>The steps below are for a Raspberry Pi. Freeing the UART on an Orange Pi takes significantly
+                different steps — consult your board's documentation.</p>
+            </div>
+          </div>
           <div class="code">
             <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
 <pre><code><span class="tok-p">sudo</span> raspi-config
