@@ -1,2 +1,4 @@
 # Local scratch / working notes
 .docs/
+.playwright-mcp/
+.superpowers/
