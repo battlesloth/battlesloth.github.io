@@ -208,23 +208,23 @@
           <p>The ESP32 Mode Button allows you to switch between different operational modes. Tapping the button temporarily brings the OLED display to life, showing the current name of the
             node. Holding the button for 5 seconds toggles Discovery Mode — the mode used to pair nodes (see <a class="inline" href="pairing.html">Pairing Nodes</a>). Holding the button for 10 seconds performs a factory reset.</p>
 
-          <p>Wire it <strong>active-high</strong>: the button feeds 3.3&nbsp;V into the input pin when pressed, and a
-            10&nbsp;kΩ resistor pulls the pin to ground the rest of the time so it never floats.</p>
+          <p>Wire it with a <strong>pull-up</strong>: a 10&nbsp;kΩ resistor holds the input pin at 3.3&nbsp;V so it
+            never floats, and pressing the button connects the pin to ground — so the firmware reads a press as the
+            pin going <strong>low</strong>.</p>
 
           <figure class="wire-fig">
             <svg viewBox="0 0 460 380" role="img" xmlns="http://www.w3.org/2000/svg">
-              <title>Active-high Mode Button wiring with an external pull-down resistor on the ESP32 A5 input</title>
-              <desc>3.3 volts connects through a momentary normally-open button to the A5 input pin, and a 10k pull-down resistor connects that same node to ground.</desc>
+              <title>Active-low Mode Button wiring with an external pull-up resistor on the ESP32 A5 input</title>
+              <desc>3.3 volts connects through a 10k pull-up resistor to the A5 input pin, and a momentary normally-open button connects that same node to ground.</desc>
 
               <text class="wf-th" x="280" y="22" text-anchor="middle" dominant-baseline="central" fill="var(--ink-2)">+3.3 V</text>
-              <line class="wf-wire" x1="280" y1="32" x2="280" y2="62"/>
+              <line class="wf-wire" x1="280" y1="32" x2="280" y2="56"/>
 
-              <!-- Button: between 3.3V and the input node -->
-              <rect x="238" y="62" width="84" height="52" rx="10" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="1.25"/>
-              <text class="wf-th" x="280" y="82" text-anchor="middle" dominant-baseline="central" fill="var(--ink)">Button</text>
-              <text class="wf-ts" x="280" y="99" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">N.O. momentary</text>
+              <!-- Pull-up resistor: between 3.3V and the input node -->
+              <rect x="252" y="56" width="56" height="64" rx="5" fill="var(--pale-2)" stroke="var(--border-strong)" stroke-width="1.25"/>
+              <text class="wf-ts" x="322" y="88" text-anchor="start" dominant-baseline="central" fill="var(--ink-3)">10 kΩ pull-up</text>
 
-              <line class="wf-wire" x1="280" y1="114" x2="280" y2="184"/>
+              <line class="wf-wire" x1="280" y1="120" x2="280" y2="184"/>
               <circle class="wf-node" cx="280" cy="184" r="4"/>
               <line class="wf-wire" x1="180" y1="184" x2="280" y2="184"/>
 
@@ -233,20 +233,21 @@
               <text class="wf-th" x="105" y="177" text-anchor="middle" dominant-baseline="central" fill="var(--blue)">ESP32 A5</text>
               <text class="wf-ts" x="105" y="195" text-anchor="middle" dominant-baseline="central" fill="var(--blue)">Mode button · input (pin 1)</text>
 
-              <line class="wf-wire" x1="280" y1="184" x2="280" y2="226"/>
+              <line class="wf-wire" x1="280" y1="184" x2="280" y2="222"/>
 
-              <!-- Pull-down resistor: between node and GND -->
-              <rect x="252" y="226" width="56" height="64" rx="5" fill="var(--pale-2)" stroke="var(--border-strong)" stroke-width="1.25"/>
-              <text class="wf-ts" x="322" y="258" text-anchor="start" dominant-baseline="central" fill="var(--ink-3)">10 kΩ pull-down</text>
+              <!-- N.O. momentary button: between node and GND -->
+              <rect x="238" y="222" width="84" height="52" rx="10" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="1.25"/>
+              <text class="wf-th" x="280" y="242" text-anchor="middle" dominant-baseline="central" fill="var(--ink)">Button</text>
+              <text class="wf-ts" x="280" y="259" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">N.O. momentary</text>
 
-              <line class="wf-wire" x1="280" y1="290" x2="280" y2="322"/>
+              <line class="wf-wire" x1="280" y1="274" x2="280" y2="306"/>
               <!-- Ground symbol -->
-              <line class="wf-wire" x1="258" y1="322" x2="302" y2="322"/>
-              <line class="wf-wire" x1="265" y1="329" x2="295" y2="329"/>
-              <line class="wf-wire" x1="271" y1="336" x2="289" y2="336"/>
-              <text class="wf-ts" x="280" y="356" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">GND</text>
+              <line class="wf-wire" x1="258" y1="306" x2="302" y2="306"/>
+              <line class="wf-wire" x1="265" y1="313" x2="295" y2="313"/>
+              <line class="wf-wire" x1="271" y1="320" x2="289" y2="320"/>
+              <text class="wf-ts" x="280" y="340" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">GND</text>
             </svg>
-            <figcaption class="wf-cap">Pressing the button pulls A5 high; the 10&nbsp;kΩ resistor holds it low when released.</figcaption>
+            <figcaption class="wf-cap">The 10&nbsp;kΩ resistor holds A5 high; pressing the button pulls it low.</figcaption>
           </figure>
 
           <h2><span class="h2-num">§</span>Powering it safely</h2>
