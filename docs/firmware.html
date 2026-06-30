@@ -6,6 +6,30 @@
   <title>Flashing Firmware · AstrOs Setup Guide</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="astros-docs.css" />
+  <style>
+    .flash-paths { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 4px 0 30px; }
+    .fp-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px 20px; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); cursor: pointer;
+      transition: border-color .15s, box-shadow .15s, transform .15s; }
+    .fp-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+    .fp-card:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .fp-card.active { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue), var(--shadow-md); transform: none; }
+    .fp-badge { position: absolute; top: -11px; left: 20px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #fff; background: var(--orange); padding: 4px 11px; border-radius: 99px; box-shadow: var(--shadow-sm); }
+    .fp-kicker { font-size: 11.5px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+    .fp-card.active .fp-kicker { color: var(--blue); }
+    .fp-card h3 { margin: 7px 0 7px; font-size: 19px; }
+    .fp-card > p { font-size: 14px; line-height: 1.55; color: var(--ink-3); margin: 0 0 16px; }
+    .fp-pick { margin-top: auto; display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 700; color: var(--ink-3); }
+    .fp-card.active .fp-pick { color: var(--blue); }
+    .fp-dot { width: 18px; height: 18px; border-radius: 99px; border: 2px solid var(--border-strong); display: grid; place-items: center; flex: none; }
+    .fp-dot::after { content: ""; width: 8px; height: 8px; border-radius: 99px; background: var(--blue); transform: scale(0); transition: transform .15s; }
+    .fp-card.active .fp-dot { border-color: var(--blue); }
+    .fp-card.active .fp-dot::after { transform: scale(1); }
+    .fp-card .lbl-on { display: none; }
+    .fp-card.active .lbl-on { display: inline; }
+    .fp-card.active .lbl-off { display: none; }
+    @media (max-width: 720px) { .flash-paths { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
   <div class="nav-scrim"></div>
@@ -28,6 +52,25 @@
             updates arrive wirelessly from the web app. First you'll prep an SD card, then install the toolchain
             and flash each Metro over USB-C.</p>
 
+          <p>Pick how you'll flash each board — the steps below update to match.</p>
+          <div class="flash-paths">
+            <div class="fp-card primary" data-path="prebuilt" role="button" tabindex="0" aria-pressed="true">
+              <span class="fp-badge">Recommended for most</span>
+              <span class="fp-kicker">Not a coder?</span>
+              <h3>Grab a prebuilt release</h3>
+              <p>Flash a ready-made <code>metro_s3</code> binary straight from your browser — no toolchain,
+                no PlatformIO, no build step.</p>
+              <span class="fp-pick"><span class="fp-dot"></span><span class="lbl-on">Showing these steps</span><span class="lbl-off">Show these steps</span></span>
+            </div>
+            <div class="fp-card" data-path="source" role="button" tabindex="0" aria-pressed="false">
+              <span class="fp-kicker">Want to tinker?</span>
+              <h3>Build from source</h3>
+              <p>Running the latest <code>main</code>, or planning to modify the firmware? Install the toolchain
+                and build it yourself.</p>
+              <span class="fp-pick"><span class="fp-dot"></span><span class="lbl-on">Showing these steps</span><span class="lbl-off">Show these steps</span></span>
+            </div>
+          </div>
+
           <h2><span class="h2-num">§</span>Prepare the SD card</h2>
           <p>Each node keeps its scripts, configuration and staged firmware on a microSD card, so every Metro
             needs one. Format the card as <strong>FAT32</strong> before first boot.</p>
@@ -49,19 +92,75 @@
             <code>config.txt</code> at boot to decide its role. (Once a node is paired you can also re-format its
             card from the web app.)</p>
 
-          <div class="callout tip">
-            <div class="ic">✦</div>
-            <div>
-              <span class="co-title">In a hurry? Grab a prebuilt release</span>
-              <p>Every release publishes ready-to-flash binaries for the <code>metro_s3</code> board on the
-                <a class="inline" href="https://github.com/battlesloth/AstrOs.ESP/releases" target="_blank" rel="noopener">Releases page</a>.
-                If you don't plan to modify the firmware, you can flash those directly with <code>esptool</code> and skip
-                straight to <a class="inline" href="server.html">Server Setup</a>. The steps below build from source —
-                the recommended path if you want the latest <code>main</code> or plan to tinker.</p>
-            </div>
+          <section class="flow-panel" data-path="prebuilt">
+          <h2><span class="h2-num">§</span>Flash a prebuilt release</h2>
+          <p>No toolchain required — download a ready-made binary and write it to each Metro over USB-C.</p>
+          
+          <div class="callout warn">
+                <div class="ic">!</div>
+                <div>
+                  <span class="co-title">Grab the right file</span>
+                  <p>Use the <code>metro_s3-flash.bin</code> — <em>not</em> <code>lolin_d32_pro</code> (a different
+                    board) and <em>not</em> <code>metro_s3-app.bin</code> (that one's only for over-the-air updates
+                    through the web app).</p>
+                </div>
           </div>
 
-          <h2><span class="h2-num">§</span>Install the toolchain</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n">1</span>
+              <div class="step-h">Download the firmware</div>
+              <p>From the <a class="inline" href="https://github.com/battlesloth/AstrOs.ESP/releases" target="_blank" rel="noopener">AstrOs.ESP Releases page</a>,
+                download <code>astros-esp-&lt;version&gt;-metro_s3-flash.bin</code> — the merged full-flash image for
+                the Metro ESP32-S3 (e.g. <code>astros-esp-1.2.0-metro_s3-flash.bin</code>).</p>
+            </li>
+            <li>
+              <span class="step-n">2</span>
+              <div class="step-h">Connect the Metro over USB-C</div>
+              <p>Plug the board into your computer with a USB-C <em>data</em> cable (not charge-only). The Metro has
+                native USB, so it shows up as a serial port directly — no separate programmer needed.</p>
+            </li>
+            <li>
+              <span class="step-n">3</span>
+              <div class="step-h">Flash it from your browser</div>
+              <p>Open the <a class="inline" href="https://adafruit.github.io/Adafruit_WebSerial_ESPTool/" target="_blank" rel="noopener">Adafruit WebSerial ESPTool</a>
+                in a Chromium-based browser (Chrome or Edge — they support Web Serial). Click <strong>Connect</strong>
+                and pick the board's port. In the first slot, set the offset to <code>0x0</code>, choose the
+                <code>metro_s3-flash.bin</code> you downloaded, then press <strong>Program</strong>. The merged
+                image already includes the bootloader and partition table, so that single file at <code>0x0</code>
+                is all you need.</p>
+              <div class="callout tip">
+                <div class="ic">✦</div>
+                <div>
+                  <span class="co-title">Prefer the command line?</span>
+                  <p>The same image flashes with <code>esptool</code>:</p>
+                  <div class="code">
+                    <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>terminal</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">esptool.py</span> write_flash <span class="tok-s">0x0</span> astros-esp-<span class="tok-s">&lt;version&gt;</span>-metro_s3-flash.bin</code></pre>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <span class="step-n">4</span>
+              <div class="step-h">Reset, then repeat for every node</div>
+              <p>Tap <strong>RESET</strong> when the flash finishes. Flash each Metro the same way — they all run
+                identical firmware; only the master's SD card carries a <code>config.txt</code>.</p>
+            </li>
+          </ol>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Board won't connect?</span>
+              <p>Put it into the ROM bootloader by hand: hold <strong>BOOT0 (DFU)</strong>, tap <strong>RESET</strong>,
+                then release BOOT0 — and try connecting again. Also double-check you're using a USB-C
+                <em>data</em> cable, not a charge-only one.</p>
+            </div>
+          </div>
+          </section>
+
+          <section class="flow-panel" data-path="source" hidden>
+          <h2 id="install-toolchain"><span class="h2-num">§</span>Install the toolchain</h2>
           <ol class="steps">
             <li>
               <span class="step-n">1</span>
@@ -135,13 +234,14 @@
                 charge-only one.</p>
             </div>
           </div>
+          </section>
 
           <h2><span class="h2-num">§</span>Confirm it's alive</h2>
           <p>Open the serial monitor. A freshly flashed node boots up and logs its startup sequence at
-            <code>115200</code> baud — including whether it came up as <strong>Master</strong> or
-            <strong>Padawan</strong>, read from <code>config.txt</code>. If you wired up an SSD1306 OLED, it'll show
+            <code>115200</code> baud on the USB-C connection — including whether it came up as <strong>Master</strong> or
+            <strong>Padawan</strong>, as read from <code>config.txt</code>. If you wired up an SSD1306 OLED, it'll show
             the node's status too. Registering nodes, discovering peers and pushing each node's hardware config
-            happen next, in <a class="inline" href="pairing.html">Pairing Nodes</a>.</p>
+            happens in the Pairing Nodes section.</p>
 
           <div class="callout tip">
             <div class="ic">✦</div>
@@ -163,12 +263,33 @@
             </div>
           </div>
 
-          <p>Once at least one node is flashed and beeping, let's stand up the server that drives it.</p>
+          <p>Once at least one node is flashed and booting, let's stand up the server that drives it.</p>
         </article>
         <nav class="page-foot" id="page-foot"></nav>
       </main>
     </div>
   </div>
   <script src="docs-nav.js"></script>
+  <script>
+    (function () {
+      const cards = document.querySelectorAll('.fp-card[data-path]');
+      const panels = document.querySelectorAll('.flow-panel[data-path]');
+      function select(path) {
+        cards.forEach(c => {
+          const on = c.dataset.path === path;
+          c.classList.toggle('active', on);
+          c.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+        panels.forEach(p => { p.hidden = p.dataset.path !== path; });
+      }
+      cards.forEach(c => {
+        c.addEventListener('click', () => select(c.dataset.path));
+        c.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(c.dataset.path); }
+        });
+      });
+      select('prebuilt');
+    })();
+  </script>
 </body>
 </html>

@@ -6,6 +6,15 @@
   <title>Hardware &amp; Wiring · AstrOs Setup Guide</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="astros-docs.css" />
+  <style>
+    .wire-fig { margin: 26px 0 6px; }
+    .wire-fig svg { display: block; width: 100%; max-width: 460px; height: auto; margin: 0 auto; }
+    .wire-fig .wf-cap { text-align: center; font-size: 12.5px; color: var(--ink-3); margin: 12px auto 0; max-width: 440px; }
+    .wire-fig .wf-th { font-size: 14px; font-weight: 600; font-family: var(--sans); }
+    .wire-fig .wf-ts { font-size: 11.5px; font-weight: 400; font-family: var(--sans); }
+    .wire-fig .wf-wire { stroke: var(--ink-3); stroke-width: 1.6; fill: none; }
+    .wire-fig .wf-node { fill: var(--ink-3); }
+  </style>
 </head>
 <body>
   <div class="nav-scrim"></div>
@@ -61,6 +70,19 @@
           <div class="pinmap">
             <div class="pinmap-grid">
               <!-- LEFT -->
+             <div class="pin-col left">
+                <div class="pin-row">
+                  <span class="pin-badge fn-pwr">3.3</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>3.3 VDC</b> · 3.3 VDC output</span>
+              </div>
+              <div class="pin-col left">
+                <div class="pin-row">
+                  <span class="pin-badge fn-pwr">GND</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>Ground</b> · Common ground connection</span>
+                </div>
+              </div>
               <div class="pin-col left">
                 <div class="pin-row">
                   <span class="pin-badge fn-uart">A3</span>
@@ -119,7 +141,7 @@
               <span><i class="fn-i2c" style="background:#cfe6df"></i> I²C bus</span>
               <span><i class="fn-uart" style="background:#cdddf2"></i> UART / serial</span>
               <span><i class="fn-gpio" style="background:#f8d7b6"></i> GPIO outputs</span>
-              <span><i class="fn-pwr" style="background:#dde2e7"></i> Control</span>
+              <span><i class="fn-pwr" style="background:#dde2e7"></i> Control / Power</span>
             </div>
           </div>
 
@@ -147,6 +169,26 @@
             as on/off GPIO outputs — perfect for relays, smoke machines, simple lights, or anything you switch
             from an animation.</p>
 
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Serial Connections</span>
+              <p>Serial connections require 3 wires: transmit (TX), receive (RX), and ground (GND). The TX pin of one device connects to the RX pin of the other, 
+                and vice versa. Always connect the GND pins together to establish a common reference. On the Raspberry Pi, the UART pins are labeled TXD (pin 8) and 
+                RXD (pin 10), with GND on pin 6. To connect the master node to a Raspberry Pi, connect the TX of the master to the RXD of the Pi, the RX of the 
+                master to the TXD of the Pi, and GND to GND.</p>
+            </div>
+          </div>
+
+           <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">I²C Connections</span>
+              <p>I²C connections require 3 wires: data (SDA) and clock (SCL), plus a common ground (GND). Unlike Serial connections, the SDA and SCL pins of each device connect to the
+                corresponding pins on the master device. Always connect the GND pins together to establish a common reference. </p>
+            </div>
+          </div>
+
           <h2><span class="h2-num">§</span>Full pin assignment</h2>
           <p>The authoritative reference, straight from the firmware's <code>metro_s3</code> build flags. Silkscreen
             is the label printed on the board; ESP pin is the chip pin number used in code.</p>
@@ -165,6 +207,51 @@
               </tbody>
             </table>
           </div>
+          
+          <h2><span class="h2-num">§</span>ESP32 Mode Button</h2>
+          <p>The ESP32 Mode Button allows you to switch between different operational modes. Tapping the button temporarily brings the OLED display to life, showing the current name of the
+            node. Holding the button for 5 seconds toggles the pairing mode. Holding the button for 10 seconds performs a factory reset.</p>
+
+          <p>Wire it <strong>active-high</strong>: the button feeds 3.3&nbsp;V into the input pin when pressed, and a
+            10&nbsp;kΩ resistor pulls the pin to ground the rest of the time so it never floats.</p>
+
+          <figure class="wire-fig">
+            <svg viewBox="0 0 460 380" role="img" xmlns="http://www.w3.org/2000/svg">
+              <title>Active-high Mode Button wiring with an external pull-down resistor on the ESP32 A5 input</title>
+              <desc>3.3 volts connects through a momentary normally-open button to the A5 input pin, and a 10k pull-down resistor connects that same node to ground.</desc>
+
+              <text class="wf-th" x="280" y="22" text-anchor="middle" dominant-baseline="central" fill="var(--ink-2)">+3.3 V</text>
+              <line class="wf-wire" x1="280" y1="32" x2="280" y2="62"/>
+
+              <!-- Button: between 3.3V and the input node -->
+              <rect x="238" y="62" width="84" height="52" rx="10" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="1.25"/>
+              <text class="wf-th" x="280" y="82" text-anchor="middle" dominant-baseline="central" fill="var(--ink)">Button</text>
+              <text class="wf-ts" x="280" y="99" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">N.O. momentary</text>
+
+              <line class="wf-wire" x1="280" y1="114" x2="280" y2="184"/>
+              <circle class="wf-node" cx="280" cy="184" r="4"/>
+              <line class="wf-wire" x1="180" y1="184" x2="280" y2="184"/>
+
+              <!-- ESP32 input pin -->
+              <rect x="30" y="156" width="150" height="56" rx="10" fill="var(--pale)" stroke="var(--blue)" stroke-width="1.25"/>
+              <text class="wf-th" x="105" y="177" text-anchor="middle" dominant-baseline="central" fill="var(--blue)">ESP32 A5</text>
+              <text class="wf-ts" x="105" y="195" text-anchor="middle" dominant-baseline="central" fill="var(--blue)">Mode button · input (pin 1)</text>
+
+              <line class="wf-wire" x1="280" y1="184" x2="280" y2="226"/>
+
+              <!-- Pull-down resistor: between node and GND -->
+              <rect x="252" y="226" width="56" height="64" rx="5" fill="var(--pale-2)" stroke="var(--border-strong)" stroke-width="1.25"/>
+              <text class="wf-ts" x="322" y="258" text-anchor="start" dominant-baseline="central" fill="var(--ink-3)">10 kΩ pull-down</text>
+
+              <line class="wf-wire" x1="280" y1="290" x2="280" y2="322"/>
+              <!-- Ground symbol -->
+              <line class="wf-wire" x1="258" y1="322" x2="302" y2="322"/>
+              <line class="wf-wire" x1="265" y1="329" x2="295" y2="329"/>
+              <line class="wf-wire" x1="271" y1="336" x2="289" y2="336"/>
+              <text class="wf-ts" x="280" y="356" text-anchor="middle" dominant-baseline="central" fill="var(--ink-3)">GND</text>
+            </svg>
+            <figcaption class="wf-cap">Pressing the button pulls A5 high; the 10&nbsp;kΩ resistor holds it low when released.</figcaption>
+          </figure>
 
           <h2><span class="h2-num">§</span>Powering it safely</h2>
           <p>The single most important wiring rule in any droid: <strong>don't run your servos off the board's

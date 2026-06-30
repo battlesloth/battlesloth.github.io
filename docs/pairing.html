@@ -98,7 +98,7 @@
               <tbody>
                 <tr><td><strong>How many</strong></td><td>Exactly one per droid</td><td>Every other node</td></tr>
                 <tr><td><strong>Server link</strong></td><td>Wired — UART 1</td><td>None (wireless only)</td></tr>
-                <tr><td><strong>UART 1 baud</strong></td><td><code>115200</code></td><td><code>9600</code></td></tr>
+                <tr><td><strong>UART 1 baud</strong></td><td><code>115200</code></td><td>Configurable per peripheral</td></tr>
                 <tr><td><strong>On the network</strong></td><td>Polls &amp; commands padawans</td><td>Registers with &amp; answers the master</td></tr>
                 <tr><td><strong>Firmware</strong></td><td colspan="2">Identical on every node — role is set at runtime, not compiled in</td></tr>
               </tbody>
@@ -115,29 +115,46 @@
             </li>
             <li>
               <span class="step-n">2</span>
-              <div class="step-h">Register your controllers in the web app</div>
-              <p>In AstrOs.Server, open the controller configuration and add an entry for each node. Your
-                <strong>master</strong> is the node you flagged with <code>config.txt</code> and wired to the Pi
-                (see <a class="inline" href="firmware.html">Flashing Firmware</a>); the rest are padawans.</p>
+              <div class="step-h">Turn on Discovery Mode on the Master</div>
+              <p>On the Master, hold down the ESP32 Mode button for 5 seconds. The Mode button is the button you connected to the 
+                ESP32, not any of the built in buttons. On release, the OLED should display "Discovery Mode On". It listens for ESP-NOW 
+                registration messages from the padawans and records each one's MAC address as a known peer. 
+                Roles and peers are saved to each board's storage, so they're remembered across reboots.</p>
             </li>
             <li>
               <span class="step-n">3</span>
-              <div class="step-h">Run discovery on the master</div>
-              <p>Kick off the master's discovery/registration. It broadcasts over ESP-NOW, finds the padawans, and
-                records each one's MAC address as a known peer. Roles and peers are saved to each board's storage,
-                so they're remembered across reboots.</p>
+              <div class="step-h">Register each Padawan</div>
+              <p>On each padawan, press the ESP32 Mode button for 5 seconds. The padawan will send a registration message to the 
+                master. The master responds with the Padawan's assigned name. Once registered, the padawan will display its 
+                assigned name on the OLED and automatically exit discovery mode.</p>
             </li>
             <li>
               <span class="step-n">4</span>
-              <div class="step-h">Push your configuration</div>
-              <p>Send the configuration from the server. Your servo, serial and GPIO module assignments flow out to
-                the master and on to each padawan, so every node knows which hardware it owns.</p>
+              <div class="step-h">Turn off Discovery Mode on the Master</div>
+              <p>Once you have registered all padawans, turn off Discovery Mode on the Master by pressing the ESP32 Mode button for 5 seconds. On release, the OLED should display "Discovery Mode Off" and change to
+                 "Master Node" after a few seconds.
+              </p>
             </li>
             <li>
               <span class="step-n">5</span>
+              <div class="step-h">Register your controllers in the web app</div>
+              <p>Ensure your Master is connected to your server via serial and all the nodes are powered on. In AstrOs.Server, open the Modules page and assign a padawan to the Dome and Core. The Master is 
+                always assigned to the Body by default. Once assigned, click the Save button.</p>
+            </li>
+            <li>
+              <span class="step-n">6</span>
+              <div class="step-h">Push your configuration</div>
+              <p>Send the configuration from the server by clicking the "Sync" button in the Modules page. Your servo, 
+                serial, I2C, and GPIO module assignments flow out to the master and on to each padawan, so every node 
+                knows which hardware it owns.</p>
+            </li>
+            <li>
+              <span class="step-n">7</span>
               <div class="step-h">Confirm the link is healthy</div>
-              <p>The master now polls each padawan every 2 seconds. If you fitted OLED displays, each shows its role
-                and link status; otherwise watch the master's serial log for poll acknowledgements from every node.</p>
+              <p>The Status page in AstrOs.Server shows the health of the link between the master and each padawan. 
+                 Ensure all nodes are communicating correctly. A greyed out section indicates a node is not responding. Blinking red
+                indicates a node's firmware is not compatible with the server and needs updated. Blinking yellow indicates a node's 
+                configuration is out of sync and you need to sync the configuration from the modules page.</p>
             </li>
           </ol>
 
@@ -146,7 +163,7 @@
             <div>
               <span class="co-title">Roles live on the board</span>
               <p>A node's role and its peer list are stored in non-volatile memory and applied at boot — you never
-                reflash to change master vs padawan. Reassign roles any time from the server and re-run discovery.</p>
+                reflash to change master vs padawan. Reassign locations any time from the server.</p>
             </div>
           </div>
           <div class="callout warn">
@@ -158,22 +175,11 @@
             </div>
           </div>
 
-          <div class="callout note" style="background:var(--pale-2); border-color:var(--border);">
-            <div class="ic" style="background:var(--blue-dark)">✦</div>
-            <div>
-              <span class="co-title">Exact buttons may shift</span>
-              <p>AstrOs is pre-1.0 and the configuration UI is still evolving, so the precise menu names in the web
-                app may differ from the flow above. The concepts — register nodes, pick a master, discover peers,
-                push config — stay the same. The <a class="inline" href="https://github.com/battlesloth/AstrOs.Server" target="_blank" rel="noopener">AstrOs.Server</a>
-                repo has the latest.</p>
-            </div>
-          </div>
-
           <hr />
-          <h2 style="margin-top:8px;">That's a working droid brain. 🤖</h2>
+          <h2 style="margin-top:8px;">That's a working droid brain.</h2>
           <p>Hardware wired, firmware flashed, server running, nodes paired — your astromech is ready to take
             direction. From here, head into the web app to start scripting animations, building playlists, and
-            wiring up outputs. May your droid beep boldly.</p>
+            wiring up outputs.</p>
           <div class="hero-btns">
             <a class="btn btn-primary" href="index.html">Back to Overview</a>
             <a class="btn btn-ghost" href="https://github.com/battlesloth" target="_blank" rel="noopener">AstrOs on GitHub</a>
