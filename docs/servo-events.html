@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servo Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Servo Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>Servo events.</h1>
+          <p class="lead">A servo event moves a servo to a position at a point on the timeline. Add servo events
+            to a <strong>Servo</strong> channel to animate panels, periscopes, arms and the like.</p>
+
+          <h2><span class="h2-num">§</span>Add a servo event</h2>
+          <p>Add a <strong>Servo</strong> channel to your script (see
+            <a class="inline" href="scripting.html">Scripting animations</a>), then click its track at the time
+            you want the move to happen. The servo event editor opens.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-servo-event.png" alt="The servo event editor with Event Time, Position, Speed and Accel. fields" />
+            <figcaption>The servo event editor.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the move happens.</li>
+            <li><strong>Position</strong> — the target, <code>0</code>–<code>100%</code> of the servo's travel.
+              Use <code>-1</code> to send it to its <strong>Home</strong> position.</li>
+            <li><strong>Speed</strong> — how fast it travels, <code>0</code>–<code>255</code>.
+              <code>0</code> is unlimited (as fast as the servo can go).</li>
+            <li><strong>Accel.</strong> — how hard it ramps up to speed, <code>0</code>–<code>255</code>.
+              <code>0</code> is unlimited.</li>
+          </ul>
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Position, Speed and Accel. come from the Maestro</span>
+              <p>These map to the <a class="inline" href="maestro.html">Pololu Maestro</a>'s own units. Set a
+                channel's travel limits and home on the Maestro; the script just drives it between them.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
