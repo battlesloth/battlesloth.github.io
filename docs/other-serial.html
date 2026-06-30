@@ -23,8 +23,8 @@
           <span class="section-tag">Modules &amp; Hardware · Serial</span>
           <h1>Other serial modules.</h1>
           <p class="lead">Besides the <a class="inline" href="maestro.html">Maestro</a>, AstrOs supports a few
-            other serial devices. They all share the same simple setup — a name, a UART channel and a baud rate —
-            and differ only in what they are:</p>
+            other serial devices. They share a simple base setup — a name, a UART channel and a baud rate — and the
+            Kangaroo X2 adds a little more:</p>
           <ul>
             <li><strong>Human Cyborg Relations</strong> — an <a class="inline" href="https://humancyborgrelations.com/r2d2/" target="_blank" rel="noopener noreferrer">HCR</a> droid sound system.</li>
             <li><strong>Kangaroo X2</strong> — a Dimension Engineering motion controller.</li>
@@ -40,7 +40,7 @@
           <h2><span class="h2-num">§</span>Settings</h2>
           <figure class="shot">
             <img src="assets/images/web/serial-other.png" alt="A generic serial module showing its Name, UART channel and baud rate" />
-            <figcaption>Every one of these uses the same three settings.</figcaption>
+            <figcaption>Every serial module starts with these three settings.</figcaption>
           </figure>
           <ul>
             <li><strong>Name</strong> — a label for the device, so you can tell it apart in scripts.</li>
@@ -48,6 +48,14 @@
             <li><strong>Baud rate</strong> — the serial speed (<code>9600</code>–<code>115200</code>). It must
               match the speed the device itself is set to.</li>
           </ul>
+
+          <h3>Kangaroo X2</h3>
+          <p>The <strong>Kangaroo X2</strong> drives two channels, so it adds a <strong>Channel&nbsp;1</strong>
+            and <strong>Channel&nbsp;2</strong> field — name each one for the motor or axis it controls.</p>
+          <figure class="shot">
+            <img src="assets/images/web/serial-kangaroo.png" alt="A Kangaroo X2 serial module with Channel 1 and Channel 2 name fields" />
+            <figcaption>The Kangaroo X2 adds two named channels.</figcaption>
+          </figure>
 
           <div class="callout tip">
             <div class="ic">✦</div>
