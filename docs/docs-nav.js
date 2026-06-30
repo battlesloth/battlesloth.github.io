@@ -21,7 +21,11 @@
       note: "More chapters coming soon",
       items: [
         { num: "05", title: "The web app",        file: "web-app.html" },
-        { num: "06", title: "Modules & hardware",  file: "modules.html" },
+        { num: "06", title: "Modules & hardware",  file: "modules.html",
+          children: [
+            { title: "Maestro", file: "maestro.html" },
+          ],
+        },
       ],
     },
   ];
@@ -42,11 +46,17 @@
       let items = g.items
         .map((it) => {
           const active = it.file === here ? " active" : "";
-          return (
+          let html =
             '<a class="sb-item' + active + '" href="' + it.file + '">' +
             '<span class="sb-num">' + it.num + "</span>" +
-            "<span>" + it.title + "</span></a>"
-          );
+            "<span>" + it.title + "</span></a>";
+          (it.children || []).forEach((c) => {
+            const ca = c.file === here ? " active" : "";
+            html +=
+              '<a class="sb-subitem' + ca + '" href="' + c.file + '">' +
+              "<span>" + c.title + "</span></a>";
+          });
+          return html;
         })
         .join("");
       if (g.note) items += '<div class="sb-soon">' + g.note + "</div>";
@@ -68,7 +78,12 @@
 
   function buildPrevNext() {
     const flat = [];
-    NAV.forEach((g) => g.items.forEach((it) => flat.push(it)));
+    NAV.forEach((g) =>
+      g.items.forEach((it) => {
+        flat.push(it);
+        (it.children || []).forEach((c) => flat.push(c));
+      })
+    );
     const here = currentFile();
     const i = flat.findIndex((it) => it.file === here);
     if (i < 0) return "";
