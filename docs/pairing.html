@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pairing Nodes · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+  <style>
+    .topo { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 26px 0; }
+    .topo-node {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 13px;
+      padding: 15px 16px; min-width: 116px; text-align: center; box-shadow: var(--shadow-sm);
+    }
+    .topo-node .tn-role { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; font-weight: 800; color: var(--muted); }
+    .topo-node .tn-name { font-size: 15px; font-weight: 700; color: var(--ink); margin-top: 3px; }
+    .topo-node .tn-sub { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+    .topo-node.master { border-color: var(--blue); box-shadow: 0 0 0 1px var(--blue), var(--shadow-sm); }
+    .topo-node.master .tn-role { color: var(--blue); }
+    .topo-link { display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 78px; padding: 0 4px; color: var(--ink-3); }
+    .topo-link .tl-line { width: 100%; height: 2px; background: var(--border-strong); position: relative; }
+    .topo-link.wired .tl-line { background: var(--teal); }
+    .topo-link.mesh .tl-line { background: repeating-linear-gradient(90deg, var(--orange) 0 5px, transparent 5px 10px); }
+    .topo-link .tl-label { font-size: 10.5px; font-weight: 700; letter-spacing: .04em; margin-bottom: 5px; white-space: nowrap; }
+    .topo-link.wired .tl-label { color: var(--teal); }
+    .topo-link.mesh .tl-label { color: var(--orange); }
+    .topo-pads { display: flex; flex-direction: column; gap: 10px; }
+    @media (max-width: 620px) {
+      .topo { flex-direction: column; align-items: stretch; }
+      .topo-link { flex-direction: row; gap: 8px; min-height: 40px; }
+      .topo-link .tl-line { width: 2px; height: 28px; }
+      .topo-link .tl-label { margin: 0; }
+      .topo-link.mesh .tl-line { background: repeating-linear-gradient(180deg, var(--orange) 0 5px, transparent 5px 10px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Pairing Nodes</b>
+        </div>
+        <span class="ver-pill">v1.0 · beta</span>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 04 · Pairing</span>
+          <h1>Link your master &amp; padawans.</h1>
+          <p class="lead">A droid can have several nodes. One is the <strong>master</strong> — wired to the server.
+            The rest are <strong>padawans</strong>, linked to the master wirelessly over ESP-NOW. Here's how
+            to assign those roles and get them talking.</p>
+
+          <h2><span class="h2-num">§</span>How the nodes connect</h2>
+          <div class="topo">
+            <div class="topo-node">
+              <div class="tn-role">Server</div>
+              <div class="tn-name">AstrOs.Server</div>
+              <div class="tn-sub">on the Pi</div>
+            </div>
+            <div class="topo-link wired">
+              <span class="tl-label">SERIAL UART</span>
+              <span class="tl-line"></span>
+            </div>
+            <div class="topo-node master">
+              <div class="tn-role">★ Master</div>
+              <div class="tn-name">Node 0</div>
+              <div class="tn-sub">UART 1 @ 115200</div>
+            </div>
+            <div class="topo-link mesh">
+              <span class="tl-label">ESP-NOW</span>
+              <span class="tl-line"></span>
+            </div>
+            <div class="topo-pads">
+              <div class="topo-node">
+                <div class="tn-role">Padawan</div>
+                <div class="tn-name">Node 1</div>
+                <div class="tn-sub">dome servos</div>
+              </div>
+              <div class="topo-node">
+                <div class="tn-role">Padawan</div>
+                <div class="tn-name">Node 2</div>
+                <div class="tn-sub">body / sound</div>
+              </div>
+            </div>
+          </div>
+          <p>The server only ever talks to the master. The master fans commands out to the padawans over ESP-NOW
+            and <strong>polls each one every 2 seconds</strong> to keep tabs on them — so you can scatter nodes
+            around the droid with no wires running between them.</p>
+
+          <h2><span class="h2-num">§</span>Master vs. padawan</h2>
+          <div class="tbl-wrap">
+            <table class="dt">
+              <thead><tr><th>&nbsp;</th><th>Master</th><th>Padawan</th></tr></thead>
+              <tbody>
+                <tr><td><strong>How many</strong></td><td>Exactly one per droid</td><td>Every other node</td></tr>
+                <tr><td><strong>Server link</strong></td><td>Wired — UART 1</td><td>None (wireless only)</td></tr>
+                <tr><td><strong>UART 1 baud</strong></td><td><code>115200</code></td><td><code>9600</code></td></tr>
+                <tr><td><strong>On the network</strong></td><td>Polls &amp; commands padawans</td><td>Registers with &amp; answers the master</td></tr>
+                <tr><td><strong>Firmware</strong></td><td colspan="2">Identical on every node — role is set at runtime, not compiled in</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2><span class="h2-num">§</span>Pair them up</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n">1</span>
+              <div class="step-h">Power on every node</div>
+              <p>Make sure all your flashed nodes are powered and physically near each other for the first pairing.
+                ESP-NOW is good over distance, but a clear first handshake never hurts.</p>
+            </li>
+            <li>
+              <span class="step-n">2</span>
+              <div class="step-h">Register your controllers in the web app</div>
+              <p>In AstrOs.Server, open the controller configuration and add an entry for each node. Your
+                <strong>master</strong> is the node you flagged with <code>config.txt</code> and wired to the Pi
+                (see <a class="inline" href="firmware.html">Flashing Firmware</a>); the rest are padawans.</p>
+            </li>
+            <li>
+              <span class="step-n">3</span>
+              <div class="step-h">Run discovery on the master</div>
+              <p>Kick off the master's discovery/registration. It broadcasts over ESP-NOW, finds the padawans, and
+                records each one's MAC address as a known peer. Roles and peers are saved to each board's storage,
+                so they're remembered across reboots.</p>
+            </li>
+            <li>
+              <span class="step-n">4</span>
+              <div class="step-h">Push your configuration</div>
+              <p>Send the configuration from the server. Your servo, serial and GPIO module assignments flow out to
+                the master and on to each padawan, so every node knows which hardware it owns.</p>
+            </li>
+            <li>
+              <span class="step-n">5</span>
+              <div class="step-h">Confirm the link is healthy</div>
+              <p>The master now polls each padawan every 2 seconds. If you fitted OLED displays, each shows its role
+                and link status; otherwise watch the master's serial log for poll acknowledgements from every node.</p>
+            </li>
+          </ol>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Roles live on the board</span>
+              <p>A node's role and its peer list are stored in non-volatile memory and applied at boot — you never
+                reflash to change master vs padawan. Reassign roles any time from the server and re-run discovery.</p>
+            </div>
+          </div>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Exactly one master</span>
+              <p>Only one node per droid may be the master — it's the single owner of the server link and the poll
+                cycle. Two masters will fight over the network. If you're moving the master role, demote the old one first.</p>
+            </div>
+          </div>
+
+          <div class="callout note" style="background:var(--pale-2); border-color:var(--border);">
+            <div class="ic" style="background:var(--blue-dark)">✦</div>
+            <div>
+              <span class="co-title">Exact buttons may shift</span>
+              <p>AstrOs is pre-1.0 and the configuration UI is still evolving, so the precise menu names in the web
+                app may differ from the flow above. The concepts — register nodes, pick a master, discover peers,
+                push config — stay the same. The <a class="inline" href="https://github.com/battlesloth/AstrOs.Server" target="_blank" rel="noopener">AstrOs.Server</a>
+                repo has the latest.</p>
+            </div>
+          </div>
+
+          <hr />
+          <h2 style="margin-top:8px;">That's a working droid brain. 🤖</h2>
+          <p>Hardware wired, firmware flashed, server running, nodes paired — your astromech is ready to take
+            direction. From here, head into the web app to start scripting animations, building playlists, and
+            wiring up outputs. May your droid beep boldly.</p>
+          <div class="hero-btns">
+            <a class="btn btn-primary" href="index.html">Back to Overview</a>
+            <a class="btn btn-ghost" href="https://github.com/battlesloth" target="_blank" rel="noopener">AstrOs on GitHub</a>
+          </div>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

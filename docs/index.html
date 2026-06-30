@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Overview</b>
+        </div>
+        <span class="ver-pill">v1.0 · beta</span>
+      </header>
+      <main class="content">
+        <article>
+          <span class="kicker">★ Start here</span>
+          <h1>Bring your astromech to life.</h1>
+          <p class="lead">Everything you need to stand up the hardware and software behind AstrOs.</p>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">New to AstrOs?</span>
+              <p>AstrOs is a animation scripting and control system for R2 builders.
+                You design animations in a web app, and one or more ESP32 nodes inside your droid play
+                them back by driving servos, sound, lights and more. It doesn't handle drive/motion,
+                but plays nicely alongside an existing drive system.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>How the pieces fit together</h2>
+          <p>AstrOs is made of a few interconnected projects. For setup you only need the first two —
+            the touchscreen remote is optional and used mainly at events.</p>
+
+          <div class="cards" style="grid-template-columns: 1fr;">
+            <div class="nav-card" style="cursor: default;">
+              <span class="nc-n">🖥</span>
+              <div>
+                <h3>AstrOs.Server <span class="nc-tag">runs on a Pi</span></h3>
+                <p>A Node.js + Vue web app in a Docker container. You design animations and manage
+                  node configuration here. Talks to the ESP32 nodes over a serial connection.</p>
+              </div>
+            </div>
+            <div class="nav-card" style="cursor: default;">
+              <span class="nc-n">⌁</span>
+              <div>
+                <h3>AstrOs.ESP <span class="nc-tag">ESP32 firmware</span></h3>
+                <p>The firmware on each ESP32 node in your droid. One node is the <strong>master</strong>
+                  (wired to the server); the rest are <strong>padawans</strong> linked wirelessly over
+                  ESP-NOW. Drives your servos, sound and GPIO.</p>
+              </div>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Your build path</h2>
+          <p>Four chapters, in order. Each one ends with a link to the next.</p>
+          <div class="cards">
+            <a class="nav-card" href="hardware.html">
+              <span class="nc-n">01</span>
+              <div>
+                <h3>Hardware &amp; Wiring</h3>
+                <p>Wire up the Metro ESP32-S3 — servo boards, I²C, UART and power.</p>
+                <span class="nc-tag">Metro ESP32-S3</span>
+              </div>
+              <span class="nc-arrow">→</span>
+            </a>
+            <a class="nav-card" href="firmware.html">
+              <span class="nc-n">02</span>
+              <div>
+                <h3>Flashing Firmware</h3>
+                <p>Install PlatformIO and flash AstrOs.ESP onto each node.</p>
+                <span class="nc-tag">AstrOs.ESP</span>
+              </div>
+              <span class="nc-arrow">→</span>
+            </a>
+            <a class="nav-card" href="server.html">
+              <span class="nc-n">03</span>
+              <div>
+                <h3>Server Setup</h3>
+                <p>Run AstrOs.Server in Docker on a Raspberry / Orange Pi.</p>
+                <span class="nc-tag">AstrOs.Server</span>
+              </div>
+              <span class="nc-arrow">→</span>
+            </a>
+            <a class="nav-card" href="pairing.html">
+              <span class="nc-n">04</span>
+              <div>
+                <h3>Pairing Nodes</h3>
+                <p>Set master / padawan roles and link them over ESP-NOW.</p>
+                <span class="nc-tag">Master / Padawan</span>
+              </div>
+              <span class="nc-arrow">→</span>
+            </a>
+          </div>
+
+          <h2><span class="h2-num">§</span>What you'll need</h2>
+          <p>A rough shopping list for a single-node build. Add another Metro board (and servo driver)
+            for each additional padawan node in your droid.</p>
+          <div class="bom">
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></svg></span>
+              <div><h4>Adafruit Metro ESP32-S3</h4><p>One per node, typically three nodes in and R2. 16&nbsp;MB flash, native USB-C, STEMMA QT. (Product&nbsp;#5500)</p></div>
+            </div>
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="4" y="4" width="16" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg></span>
+              <div><h4>SSD1306 OLED (128 x 32 pixels)</h4><p>Small I²C status display — shows node role &amp; health.</p></div>
+            </div>
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 14h18M8 22h8"/></svg></span>
+              <div><h4>Single-board computer</h4><p>Raspberry Pi or Orange Pi with a free serial port — runs the server.</p></div>
+            </div> 
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M11 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V7z"/><path d="M10 6.5v2M12.5 6.5v2M15 6.5v2"/></svg></span>
+              <div><h4>Micro SD Card</h4><p>One SD Card for each ESP32 node and one for the single-board computer (SBC). Some SBCs support NVMe hard drives and can be used for the SBC instead.</p></div>
+            </div>
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 3v6M8 9h8l-1 8a3 3 0 0 1-6 0z"/></svg></span>
+              <div><h4>Power for ESP32 nodes</h4><p>5V USB, 4.2/3.7V LiPo, or 6-12V DC through the barrel connector.</p></div>
+            </div>
+            <div class="bom-item">
+              <span class="bi-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M7 8V6a2 2 0 0 1 2-2h2v8H9a2 2 0 0 1-2-2zM13 4h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2zM12 12v8"/></svg></span>
+              <div><h4>Cables &amp; misc</h4><p>USB-C cable for flashing, STEMMA QT / jumper wires, plus your servos, sound board, etc.</p></div>
+            </div>
+          </div>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">A note on accuracy</span>
+              <p>AstrOs is under active development. These docs track the current
+                <code>release</code> branches. When in doubt, the project source code on GitHub are the source of
+                truth. Found something out of date? PRs welcome.</p>
+            </div>
+          </div>
+
+          <div class="hero-btns">
+            <a class="btn btn-primary" href="hardware.html">Start with Hardware →</a>
+            <a class="btn btn-ghost" href="https://github.com/battlesloth" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

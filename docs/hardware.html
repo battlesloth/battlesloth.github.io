@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hardware &amp; Wiring · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Hardware &amp; Wiring</b>
+        </div>
+        <span class="ver-pill">v1.0 · beta</span>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 01 · Hardware</span>
+          <h1>Wire up the Metro ESP32-S3.</h1>
+          <p class="lead">Each AstrOs node is an Adafruit Metro ESP32-S3. This chapter maps out exactly
+            which pins do what, and how your servo boards, displays, sound boards and switched outputs connect to it.</p>
+
+          <div class="specs">
+            <div class="spec"><span class="sk">Board</span><span class="sv">Metro ESP32-S3</span></div>
+            <div class="spec"><span class="sk">Flash</span><span class="sv">16 MB</span></div>
+            <div class="spec"><span class="sk">Serial channels</span><span class="sv">2× UART</span></div>
+            <div class="spec"><span class="sk">I²C</span><span class="sv">STEMMA QT</span></div>
+            <div class="spec"><span class="sk">GPIO outputs</span><span class="sv">10 (D2–D11)</span></div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Why the Metro ESP32-S3?</span>
+              <p>It has the pin count AstrOs needs (multiple hardware UARTs, I²C and plenty of GPIO), native USB-C
+                for flashing, and a STEMMA QT connector so the I²C bus is solder-free. The pin numbers below
+                are baked into the firmware's <code>metro_s3</code> build — you don't configure them at runtime.</p>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Warpcell Shields</span>
+              <p>
+                The Warpcell shields are a convenient way to wire up your Metro ESP32-S3. They simplify the process by providing easy-to-use connectors and are designed to 
+              work seemlessly with the Warpcell ecosystem. The below information is still a useful reference, but you may not need to follow it exactly if you're using the shields.</p>
+              </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>The pinout at a glance</h2>
+          <p>Here's what AstrOs uses on the board. Pins are colour-coded by function — match the colours to
+            the connection guide below.</p>
+
+          <div class="pinmap">
+            <div class="pinmap-grid">
+              <!-- LEFT -->
+              <div class="pin-col left">
+                <div class="pin-row">
+                  <span class="pin-badge fn-uart">A3</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>UART 2 TX</b> · Serial transmit</span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-uart">A4</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>UART 2 RX</b> · Serial receive</span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-pwr">A5</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>Reset button</b></span>
+                </div>
+              </div>
+
+              <!-- BOARD -->
+              <figure class="board">
+                <img class="board-photo" src="assets/images/adafruit_esp32_s3.png"
+                  alt="Adafruit Metro ESP32-S3 development board, top-down view" width="460" height="540" />
+                <figcaption>Metro ESP32-S3 · Adafruit #5500</figcaption>
+              </figure>
+
+              <!-- RIGHT -->
+              <div class="pin-col right">
+                <div class="pin-row">
+                  <span class="pin-badge fn-i2c">SCL</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>I²C clock</b></span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-i2c">SDA</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>I²C data</b></span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-gpio">2–11</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>10× GPIO outputs</b></span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-uart">RX</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>UART 1 RX</b> · Serial receive</span>
+                </div>
+                <div class="pin-row">
+                  <span class="pin-badge fn-uart">TX</span>
+                  <span class="pin-lead"></span>
+                  <span class="pin-label"><b>UART 1 TX</b> · Serial transmit</span>
+                </div>
+              </div>
+            </div>
+            <div class="pin-legend">
+              <span><i class="fn-i2c" style="background:#cfe6df"></i> I²C bus</span>
+              <span><i class="fn-uart" style="background:#cdddf2"></i> UART / serial</span>
+              <span><i class="fn-gpio" style="background:#f8d7b6"></i> GPIO outputs</span>
+              <span><i class="fn-pwr" style="background:#dde2e7"></i> Control</span>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>What connects where</h2>
+
+          <h3>The I²C bus — display</h3>
+          <p>Your OLED and other I²C devices all share the single I²C bus on <code>SDA&nbsp;(IO&nbsp;47)</code> and
+            <code>SCL&nbsp;(IO&nbsp;48)</code>. Because the Metro has a STEMMA QT connector, you can daisy-chain
+            STEMMA QT devices with no soldering. Each device needs a unique address. The OLED has a default address of <code>0x3C (60)</code>.</p>
+          <ul>
+            <li><strong>SSD1306 OLED</strong> a small status display for the node's role and health.</li>
+          </ul>
+
+          <h3>The serial channels — sound &amp; smart peripherals</h3>
+          <p>AstrOs uses two serial channels (the pins for a third are reserved in the build but not active):</p>
+          <ul>
+            <li><strong>UART 1</strong> (<code>TX 40 / RX 41</code>) — On the
+              <strong>master</strong> node this is the AstrOs <em>interface</em> link that connects to the server (and only the server). Padawan nodes can freely use it to communicate with serial peripherals.</li>
+            <li><strong>UART 2</strong> (<code>TX 17 / RX 18</code>, a.k.a. A3/A4) — A free serial channel for a
+              peripheral such as a sound board or a Pololu Maestro.</li>
+         </ul>
+
+          <h3>GPIO outputs</h3>
+          <p>Ten general-purpose pins, <code>D2</code> through <code>D11</code> (<code>IO 2–11</code>), are driven
+            as on/off GPIO outputs — perfect for relays, smoke machines, simple lights, or anything you switch
+            from an animation.</p>
+
+          <h2><span class="h2-num">§</span>Full pin assignment</h2>
+          <p>The authoritative reference, straight from the firmware's <code>metro_s3</code> build flags. Silkscreen
+            is the label printed on the board; ESP pin is the chip pin number used in code.</p>
+          <div class="tbl-wrap">
+            <table class="dt">
+              <thead><tr><th>Function</th><th>Silkscreen</th><th>ESP pin</th><th>Used for</th></tr></thead>
+              <tbody>
+                <tr><td><span class="pin-chip fn-i2c">I²C SDA</span></td><td>SDA</td><td><code>47</code></td><td>OLED (data) + I²C peripherals</td></tr>
+                <tr><td><span class="pin-chip fn-i2c">I²C SCL</span></td><td>SCL</td><td><code>48</code></td><td>OLED (clock) + I²C peripherals</td></tr>
+                <tr><td><span class="pin-chip fn-uart">UART 1 TX</span></td><td>TX</td><td><code>40</code></td><td>Interface link — transmit</td></tr>
+                <tr><td><span class="pin-chip fn-uart">UART 1 RX</span></td><td>RX</td><td><code>41</code></td><td>Interface link — receive</td></tr>
+                <tr><td><span class="pin-chip fn-uart">UART 2 TX</span></td><td>A3</td><td><code>17</code></td><td>Serial peripheral — transmit</td></tr>
+                <tr><td><span class="pin-chip fn-uart">UART 2 RX</span></td><td>A4</td><td><code>18</code></td><td>Serial peripheral — receive</td></tr>
+                <tr><td><span class="pin-chip fn-gpio">GPIO 0–9</span></td><td>D2 – D11</td><td><code>2 – 11</code></td><td>10× general-purpose outputs</td></tr>
+                <tr><td><span class="pin-chip fn-pwr">Reset</span></td><td>A5</td><td><code>1</code></td><td>Reset / factory-reset button (input)</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2><span class="h2-num">§</span>Powering it safely</h2>
+          <p>The single most important wiring rule in any droid: <strong>don't run your servos off the board's
+            logic power.</strong> Servos draw big, spiky currents that will brown out the ESP32 and cause random reboots.</p>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Separate your power rails</span>
+              <p>Feed servos and high-draw peripherals from a dedicated 5V BEC/UBEC sized for the load.
+                Power the Metro's logic from its own regulated power supply (5VDC - USB, 6-12VDC - Barrel Jack). Then tie <strong>all grounds
+                together</strong> — the servo supply, the BEC and the Metro must share a common ground, or your
+                signals won't be referenced correctly.</p>
+            </div>
+          </div>
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">STEMMA QT saves solder</span>
+              <p>Use STEMMA QT / Qwiic cables to chain the Metro to a PCA9685 and OLED — no soldering on the
+                I²C bus, and the connectors are keyed so you can't reverse them.</p>
+            </div>
+          </div>
+
+          <p>With everything wired, plug the Metro into your computer over USB-C — it's time to load the
+            firmware.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

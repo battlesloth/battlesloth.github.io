@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Server Setup · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Server Setup</b>
+        </div>
+        <span class="ver-pill">v1.0 · beta</span>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 03 · Server</span>
+          <h1>Run the AstrOs server.</h1>
+          <p class="lead">AstrOs.Server is the web app where you design animations and manage your nodes.
+            It runs as a Docker container on a single-board computer — a Raspberry Pi or Orange Pi — wired
+            to your master node over serial.</p>
+
+          <div class="specs">
+            <div class="spec"><span class="sk">Host</span><span class="sv">Raspberry / Orange Pi</span></div>
+            <div class="spec"><span class="sk">Runtime</span><span class="sv">Docker · ARM64</span></div>
+            <div class="spec"><span class="sk">Web UI</span><span class="sv">Port 80</span></div>
+            <div class="spec"><span class="sk">Link to droid</span><span class="sv">Serial UART</span></div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Use a 64-bit OS</span>
+              <p>The server image is built for <code>linux/arm64/v8</code>, so flash your Pi with a 64-bit
+                Raspberry Pi OS (or equivalent). A Pi 4 / Pi 5 or a comparable Orange Pi works well.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Free up the serial port</h2>
+          <p>The container talks to your master node through the Pi's hardware UART. By default the Pi uses that
+            port for a login console — you need to turn the console off and the serial hardware on.</p>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">sudo</span> raspi-config
+<span class="tok-c">#  → Interface Options → Serial Port</span>
+<span class="tok-c">#      Login shell over serial?   No</span>
+<span class="tok-c">#      Serial port hardware?      Yes</span>
+
+<span class="tok-p">sudo</span> reboot</code></pre>
+          </div>
+          <p>After the reboot the UART is available at <code>/dev/ttyAMA0</code> (mapped into the container as
+            <code>/dev/ttyS0</code> by the compose file below).</p>
+
+          <h2><span class="h2-num">§</span>Install Docker</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n">1</span>
+              <div class="step-h">Install the Docker engine</div>
+              <div class="code">
+                <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">sudo</span> apt update <span class="tok-k">&amp;&amp;</span> <span class="tok-p">sudo</span> apt install <span class="tok-f">-y</span> docker.io</code></pre>
+              </div>
+            </li>
+            <li>
+              <span class="step-n">2</span>
+              <div class="step-h">Create the server's data folder</div>
+              <p>This is where AstrOs keeps its database and logs — the compose file mounts it into the container,
+                so your animations survive restarts and updates.</p>
+              <div class="code">
+                <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">mkdir</span> <span class="tok-f">-p</span> ~/.config/astrosserver</code></pre>
+              </div>
+            </li>
+            <li>
+              <span class="step-n">3</span>
+              <div class="step-h">Create the Docker network</div>
+              <p>AstrOs runs on an external bridge network named <code>astronet</code>:</p>
+              <div class="code">
+                <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">docker</span> network create astronet</code></pre>
+              </div>
+            </li>
+          </ol>
+
+          <h2><span class="h2-num">§</span>Deploy the stack</h2>
+          <p>Save the compose file below as <code>docker-compose.yml</code>. Edit two things first: set
+            <code>CORS_ORIGIN</code> to your Pi's IP address, and make sure the volume path matches the folder you
+            created (the example uses the <code>astros</code> user's home).</p>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#7fb0d6"></span>docker-compose.yml</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-f">services:</span>
+  <span class="tok-f">astros:</span>
+    <span class="tok-f">image:</span> <span class="tok-s">'ghcr.io/battlesloth/astros-server:latest'</span>
+    <span class="tok-f">restart:</span> <span class="tok-s">unless-stopped</span>
+    <span class="tok-f">ports:</span>
+      - <span class="tok-s">80:80</span>      <span class="tok-c"># web UI</span>
+      - <span class="tok-s">5000:5000</span>  <span class="tok-c"># realtime / WebSocket</span>
+      - <span class="tok-s">3000:3000</span>  <span class="tok-c"># API</span>
+    <span class="tok-f">volumes:</span>
+      - <span class="tok-s">/home/astros/.config/astrosserver:/root/.config/astrosserver</span>
+    <span class="tok-f">environment:</span>
+      - <span class="tok-s">CORS_ORIGIN=http://&lt;your-pi-ip&gt;</span>
+    <span class="tok-f">networks:</span>
+      - <span class="tok-s">astronet</span>
+    <span class="tok-f">devices:</span>
+      - <span class="tok-s">'/dev/ttyAMA0:/dev/ttyS0'</span>   <span class="tok-c"># Pi UART → container</span>
+
+<span class="tok-f">networks:</span>
+  <span class="tok-f">astronet:</span>
+    <span class="tok-f">external:</span> <span class="tok-s">true</span></code></pre>
+          </div>
+          <p>Then bring it up from the same folder:</p>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>raspberry pi</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-p">docker</span> compose up <span class="tok-f">-d</span></code></pre>
+          </div>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Prefer a UI? Use Portainer</span>
+              <p>Many builders manage the stack with <a class="inline" href="https://www.portainer.io" target="_blank" rel="noopener">Portainer</a>
+                instead of the CLI. Install it, create the <code>astronet</code> network under
+                <em>Networks</em>, then add a <em>Stack</em> named <code>astros</code> and paste the compose
+                file above. Same result, friendlier buttons.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Open the web app</h2>
+          <p>Point a browser on the same network at your Pi's address:</p>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#9fd6a8"></span>browser</span><button class="code-copy">copy</button></div>
+<pre><code>http://&lt;your-pi-ip&gt;/</code></pre>
+          </div>
+          <p>You should land on the AstrOs animation studio. The last wiring detail: connect the Pi's UART to your
+            master node.</p>
+
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Cross your TX and RX</span>
+              <p>Wire the Pi's serial <strong>TX → master node RX (IO&nbsp;41)</strong> and
+                <strong>Pi RX → master node TX (IO&nbsp;40)</strong>, and join their grounds. Transmit always goes
+                to the other side's receive — straight-through wiring is the classic "why won't it talk" gotcha.</p>
+            </div>
+          </div>
+
+          <p>Server's up and wired in. Time to teach your nodes who's who.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

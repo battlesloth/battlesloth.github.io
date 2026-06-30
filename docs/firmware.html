@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flashing Firmware · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Flashing Firmware</b>
+        </div>
+        <span class="ver-pill">v1.0 · beta</span>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 02 · Firmware</span>
+          <h1>Flash the AstrOs.ESP firmware.</h1>
+          <p class="lead">Every node runs the same firmware — <code>AstrOs.ESP</code>, built with PlatformIO and
+            ESP-IDF. Flashing over USB is a <strong>one-time</strong> bootstrap; once a board is running, future
+            updates arrive wirelessly from the web app. First you'll prep an SD card, then install the toolchain
+            and flash each Metro over USB-C.</p>
+
+          <h2><span class="h2-num">§</span>Prepare the SD card</h2>
+          <p>Each node keeps its scripts, configuration and staged firmware on a microSD card, so every Metro
+            needs one. Format the card as <strong>FAT32</strong> before first boot.</p>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Only the master gets a config file</span>
+              <p>On the <strong>master node — and only the master</strong> — add a plain-text file named
+                <code>config.txt</code> to the root of its card with the single line below. That line is what tells
+                the board it's the master, so it talks to the server on UART&nbsp;1. Leave every padawan's card
+                without a <code>config.txt</code> — a node with no config file comes up as a padawan automatically.</p>
+            </div>
+          </div>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#7fb0d6"></span>config.txt · master card only</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-k">isMasterNode</span>=<span class="tok-s">true</span></code></pre>
+          </div>
+          <p>Slot each prepared card into its Metro <em>before</em> powering it on — the firmware reads
+            <code>config.txt</code> at boot to decide its role. (Once a node is paired you can also re-format its
+            card from the web app.)</p>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">In a hurry? Grab a prebuilt release</span>
+              <p>Every release publishes ready-to-flash binaries for the <code>metro_s3</code> board on the
+                <a class="inline" href="https://github.com/battlesloth/AstrOs.ESP/releases" target="_blank" rel="noopener">Releases page</a>.
+                If you don't plan to modify the firmware, you can flash those directly with <code>esptool</code> and skip
+                straight to <a class="inline" href="server.html">Server Setup</a>. The steps below build from source —
+                the recommended path if you want the latest <code>main</code> or plan to tinker.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Install the toolchain</h2>
+          <ol class="steps">
+            <li>
+              <span class="step-n">1</span>
+              <div class="step-h">Install Visual Studio Code</div>
+              <p>VS Code is the IDE the project is built around — the repo ships ready-made launch and task
+                configs for it. Grab it from <a class="inline" href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>.</p>
+            </li>
+            <li>
+              <span class="step-n">2</span>
+              <div class="step-h">Add the PlatformIO IDE extension</div>
+              <p>Open the Extensions panel (<code>Ctrl/Cmd + Shift + X</code>), search for <strong>PlatformIO IDE</strong>,
+                and install it. PlatformIO manages the ESP-IDF framework and the Espressif toolchain for you —
+                there's nothing else to install by hand.</p>
+            </li>
+            <li>
+              <span class="step-n">3</span>
+              <div class="step-h">Clone the firmware repository</div>
+              <p>From a terminal (or VS Code's built-in one):</p>
+              <div class="code">
+                <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>terminal</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-c"># Grab the AstrOs.ESP firmware</span>
+<span class="tok-p">git</span> clone https://github.com/battlesloth/AstrOs.ESP.git
+<span class="tok-p">cd</span> AstrOs.ESP</code></pre>
+              </div>
+            </li>
+            <li>
+              <span class="step-n">4</span>
+              <div class="step-h">Open the folder in VS Code</div>
+              <p>PlatformIO detects <code>platformio.ini</code> and, on the first build, downloads the
+                <code>espressif32</code> platform and ESP-IDF framework. This first run takes several minutes and
+                needs an internet connection — later builds are fast and offline.</p>
+            </li>
+          </ol>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Native unit tests (contributors only)</span>
+              <p>If you plan to run the host-side unit tests, you'll also need a C++ toolchain — on Windows that's
+                <strong>mingw-w64</strong> via MSYS2 (<code>pacman -S mingw-w64-ucrt-x86_64-gcc</code>), on Linux any
+                recent <code>g++</code>. Not needed just to flash a droid.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Build &amp; flash a node</h2>
+          <p>Connect the Metro to your computer with a USB-C data cable. The board has native USB, so it shows up
+            as a serial port directly — no separate programmer needed. The firmware targets the <code>metro_s3</code>
+            build environment.</p>
+          <div class="code">
+            <div class="code-bar"><span class="cb-name"><span class="cb-dot" style="background:#f49446"></span>terminal · in AstrOs.ESP/</span><button class="code-copy">copy</button></div>
+<pre><code><span class="tok-c"># Build the firmware</span>
+<span class="tok-p">pio</span> run <span class="tok-f">-e</span> <span class="tok-s">metro_s3</span>
+
+<span class="tok-c"># Build and flash it over USB-C</span>
+<span class="tok-p">pio</span> run <span class="tok-f">-e</span> <span class="tok-s">metro_s3</span> <span class="tok-f">-t</span> <span class="tok-s">upload</span>
+
+<span class="tok-c"># Watch the serial output (115200 baud)</span>
+<span class="tok-p">pio</span> device monitor <span class="tok-f">-e</span> <span class="tok-s">metro_s3</span></code></pre>
+          </div>
+          <p>Prefer buttons? The PlatformIO toolbar at the bottom of VS Code has <strong>Build</strong> (✓),
+            <strong>Upload</strong> (→) and <strong>Monitor</strong> (🔌) icons. Just make sure the environment switcher
+            reads <code>env:metro_s3</code> first.</p>
+
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Upload won't start?</span>
+              <p>The board normally auto-resets into its bootloader. If an upload hangs or fails, put it into the
+                ROM bootloader by hand: hold <strong>BOOT0 (DFU)</strong>, tap <strong>RESET</strong>, then release
+                BOOT0 — and run the upload again. Also double-check you're using a USB-C <em>data</em> cable, not a
+                charge-only one.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Confirm it's alive</h2>
+          <p>Open the serial monitor. A freshly flashed node boots up and logs its startup sequence at
+            <code>115200</code> baud — including whether it came up as <strong>Master</strong> or
+            <strong>Padawan</strong>, read from <code>config.txt</code>. If you wired up an SSD1306 OLED, it'll show
+            the node's status too. Registering nodes, discovering peers and pushing each node's hardware config
+            happen next, in <a class="inline" href="pairing.html">Pairing Nodes</a>.</p>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Flash every board the same way</span>
+              <p>All nodes run identical firmware — flash each Metro with the exact same <code>metro_s3</code> build.
+                There's no "master build" vs "padawan build"; the only difference is the <code>config.txt</code> on
+                the master's card.</p>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">This is the only time you'll need the USB cable</span>
+              <p>From here on, firmware updates are handled entirely through the web app. AstrOs.Server flashes new
+                firmware to the master over the serial link, and the master forwards it to every padawan over
+                ESP-NOW — no USB, no PlatformIO. Hand-flashing is just for first-time setup or recovery.</p>
+            </div>
+          </div>
+
+          <p>Once at least one node is flashed and beeping, let's stand up the server that drives it.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

@@ -36,6 +36,18 @@
         border-color: #2f445c !important;
       }
 
+      .btn-outline-primary {
+        background-color: transparent !important;
+        color: #2a5a97 !important;
+        border-color: #2a5a97 !important;
+      }
+
+      .btn-outline-primary:hover {
+        background-color: #2a5a97 !important;
+        color: white !important;
+        border-color: #2a5a97 !important;
+      }
+
       .bg-primary {
         background-color: #2a5a97 !important;
       }
@@ -82,6 +94,7 @@
           <span class="text-3xl">s</span>
         </div>
         <span class="ml-3 text-sm opacity-80 hidden sm:inline">Astromech Operating System</span>
+        <a href="docs/" class="ml-auto text-sm font-semibold hover:underline">Setup Guide</a>
       </div>
     </header>
 
@@ -103,10 +116,16 @@
         </p>
         <div class="flex flex-wrap gap-3 justify-center">
           <a
+            href="docs/"
+            class="btn btn-primary rounded-lg px-6 py-2 font-semibold"
+          >
+            Read the Setup Guide →
+          </a>
+          <a
             href="https://github.com/battlesloth"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn btn-primary rounded-lg px-6 py-2 font-semibold"
+            class="btn btn-outline-primary rounded-lg px-6 py-2 font-semibold"
           >
             View on GitHub
           </a>
