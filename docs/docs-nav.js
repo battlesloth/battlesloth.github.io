@@ -28,6 +28,11 @@
             { title: "I²C modules", file: "i2c.html" },
           ],
         },
+        { num: "07", title: "Scripting animations", file: "scripting.html",
+          children: [
+            { title: "Servo events", file: "servo-events.html" },
+          ],
+        },
       ],
     },
   ];
