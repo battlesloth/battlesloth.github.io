@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pololu Maestro · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Maestro</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Modules &amp; Hardware · Serial</span>
+          <h1>Configure a Pololu Maestro.</h1>
+          <p class="lead">A <strong>Pololu Maestro</strong> is how a node drives servos — the channels you
+            animate, like panels, periscopes and arms. You add it as a serial module on the node it's wired to.</p>
+
+          <h2><span class="h2-num">§</span>Add the Maestro</h2>
+          <p>On the <a class="inline" href="modules.html">Modules</a> screen, expand the location whose node the
+            Maestro is wired to, select <strong>+</strong> on <strong>Serial Modules</strong>, choose
+            <strong>Maestro</strong>, then <strong>Add Module</strong>. A <em>Pololu Maestro</em> row appears —
+            expand it to configure it.</p>
+
+          <h2><span class="h2-num">§</span>Settings</h2>
+          <figure class="shot">
+            <img src="assets/images/web/maestro-config.png" alt="Expanded Pololu Maestro serial module configuration" />
+            <figcaption>The Maestro's settings, expanded.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Name</strong> — a label for this Maestro, so you can tell it apart in scripts.</li>
+            <li><strong>UART channel</strong> — which of the node's serial channels the Maestro is wired to.</li>
+            <li><strong>Baud rate</strong> — the serial speed (<code>9600</code>–<code>115200</code>). It must
+              match the baud the Maestro itself is set to, or they won't talk.</li>
+            <li><strong>Channel count</strong> — <code>6</code>, <code>12</code>, <code>18</code> or
+              <code>24</code>, matching your Maestro model.</li>
+            <li><strong>Per-channel type</strong> — set each channel to <strong>Servo</strong> (a servo you
+              animate), <strong>Output</strong> (a simple on/off line), or <strong>Disabled</strong>.</li>
+            <li><strong>Test</strong> — each channel has a <strong>Test</strong> button that fires it on demand,
+              so you can confirm a servo or output is wired correctly before scripting anything.</li>
+          </ul>
+
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Match the baud and channel count</span>
+              <p>The baud rate and channel count here must match how the physical Maestro is configured (set in
+                Pololu's Maestro Control Center). A mismatch means servos that don't respond.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="modules.html">Modules &amp; hardware</a> to finish this node, then
+            <strong>Save</strong> and <strong>Sync</strong>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
