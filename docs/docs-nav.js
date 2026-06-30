@@ -105,7 +105,7 @@
     const scrim = document.querySelector(".nav-scrim");
     if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
     if (scrim) scrim.addEventListener("click", () => document.body.classList.remove("nav-open"));
-    document.querySelectorAll(".sb-item").forEach((a) =>
+    document.querySelectorAll(".sb-item, .sb-subitem").forEach((a) =>
       a.addEventListener("click", () => document.body.classList.remove("nav-open"))
     );
   }
