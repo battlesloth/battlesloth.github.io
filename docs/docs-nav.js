@@ -31,6 +31,11 @@
         { num: "07", title: "Scripting animations", file: "scripting.html",
           children: [
             { title: "Servo events", file: "servo-events.html" },
+            { title: "GPIO events", file: "gpio-events.html" },
+            { title: "Audio events", file: "audio-events.html" },
+            { title: "Kangaroo events", file: "kangaroo-events.html" },
+            { title: "I²C events", file: "i2c-events.html" },
+            { title: "Serial events", file: "uart-events.html" },
           ],
         },
       ],

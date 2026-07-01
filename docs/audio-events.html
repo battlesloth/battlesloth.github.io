@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio (HCR) Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Audio Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>Audio events.</h1>
+          <p class="lead">An audio event fires one or more sound commands to a
+            <a class="inline" href="https://humancyborgrelations.com/r2d2/" target="_blank" rel="noopener noreferrer">Human
+            Cyborg Relations</a> (HCR) sound board — the vocalizer that gives your droid its voice, musings and
+            emotional reactions.</p>
+
+          <h2><span class="h2-num">§</span>Add an audio event</h2>
+          <p>Add a <strong>Human Cyborg Relations</strong> channel to your script (set the module up first under
+            <a class="inline" href="other-serial.html">Other serial modules</a>), then click its track at the time
+            you want the sound to play. The HCR event editor opens.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <p>Unlike the other editors, one audio event can carry a <strong>list of commands</strong> that all fire at
+            the same moment. You build that list with the fields below, then <strong>Save</strong>.</p>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-hcr-event.png" alt="The HCR audio event editor: a command list, Command Category, Command, Value A/B and an Add button" />
+            <figcaption>The audio event editor — build a list of HCR commands.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the commands fire.</li>
+            <li><strong>Command Category</strong> — groups the available commands:
+              <strong>Stimuli</strong> (emotional reactions), <strong>Muse</strong> (idle chatter),
+              <strong>SD Wav</strong> (play files from the HCR's SD card), <strong>Stop</strong>,
+              <strong>Volume</strong> and <strong>Override</strong> (personality tuning).</li>
+            <li><strong>Command</strong> — the specific HCR command within the chosen category.</li>
+            <li><strong>Value A</strong> / <strong>Value B</strong> — numeric arguments. They enable only for
+              commands that take a value (for example, a WAV file number or a volume level); for the rest they stay
+              disabled.</li>
+          </ul>
+          <p>Select <strong>Add</strong> to append the command to the list at the top of the editor. Repeat to stack
+            several commands into one event; use the <strong>✕</strong> beside a listed command to remove it. When the
+            list looks right, select <strong>Save</strong>.</p>
+
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Each command maps to an HCR instruction</span>
+              <p>The dropdown lists commands by friendly name (<em>Mild Happy</em>, <em>Enable Muse</em>,
+                <em>Play Wav on A</em>…); each one sends the HCR's matching serial instruction. The commands that take
+                a <strong>Value A</strong> are the ones that need a number — a WAV file to play, a volume level, a
+                delay in seconds. See the
+                <a class="inline" href="https://humancyborgrelations.com/r2d2/" target="_blank" rel="noopener noreferrer">HCR
+                documentation</a> for what each does.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

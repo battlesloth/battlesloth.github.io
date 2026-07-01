@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPIO Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>GPIO Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>GPIO events.</h1>
+          <p class="lead">A GPIO event switches an output on or off at a point on the timeline. Add GPIO events
+            to a <strong>GPIO</strong> channel to drive relays, LEDs, smoke machines and other simple on/off loads.</p>
+
+          <h2><span class="h2-num">§</span>Add a GPIO event</h2>
+          <p>Add a <strong>GPIO</strong> channel to your script (see
+            <a class="inline" href="scripting.html">Scripting animations</a>), then click its track at the time
+            you want the output to change. The GPIO event editor opens.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-gpio-event.png" alt="The GPIO event editor with Event Time and a Low/High State dropdown" />
+            <figcaption>The GPIO event editor.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the output changes.</li>
+            <li><strong>State</strong> — <code>High</code> drives the output on, <code>Low</code> drives it off.
+              The output holds that state until the next GPIO event on the same channel.</li>
+          </ul>
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Also drives Maestro output channels</span>
+              <p>A <a class="inline" href="maestro.html">Maestro</a> channel configured as an <strong>Output</strong>
+                (rather than a Servo) uses this same editor — <code>High</code> and <code>Low</code> map to the
+                Maestro's full-high and full-low positions.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
