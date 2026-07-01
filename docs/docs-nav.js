@@ -38,6 +38,7 @@
             { title: "Serial events", file: "uart-events.html" },
           ],
         },
+        { num: "08", title: "Playlists",           file: "playlists.html" },
       ],
     },
   ];

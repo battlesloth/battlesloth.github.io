@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playlists · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Playlists</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 08 · Using AstrOs</span>
+          <h1>Build a playlist.</h1>
+          <p class="lead">A <strong>playlist</strong> chains your <a class="inline" href="scripting.html">scripts</a>
+            together so you can fire a whole sequence with one command — a routine of animations that plays in order,
+            on shuffle, on a loop, or with pauses in between.</p>
+
+          <h2><span class="h2-num">§</span>The Playlists list</h2>
+          <p>The <strong>Playlists</strong> screen lists every playlist by <strong>Playlist Name</strong> and
+            <strong>Description</strong>. <strong>Filter</strong> to find one, select <strong>New</strong> to start
+            one, or click a row to edit it. Each row's actions let you <strong>copy</strong> (duplicate),
+            <strong>play</strong> (run it on the droid now) or <strong>delete</strong> it. It works just like the
+            <a class="inline" href="scripting.html">Scripts</a> list.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <p>Give the playlist a <strong>Name</strong>, pick a <strong>type</strong> (how it plays — see below), and
+            optionally a <strong>Description</strong>. Select <strong>Add Track</strong> to add entries, drag or use the
+            arrows to reorder them, and <strong>Save</strong> when you're done. The <strong>?</strong> button opens an
+            in-app reference for the playlist types.</p>
+          <figure class="shot">
+            <img src="assets/images/web/playlist-editor.png" alt="The playlist editor: name, type dropdown, playback settings and a list of tracks" />
+            <figcaption>The playlist editor — name, type, settings and a track list.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Playlist types</h2>
+          <p>The <strong>type</strong> decides the play order and what happens when the playlist reaches the end. All
+            types except plain <strong>Sequential</strong> are <em>interruptible</em> — a new script or playlist sent
+            to the server takes over once the current track finishes.</p>
+          <div class="tbl-wrap">
+            <table class="dt">
+              <thead><tr><th>Type</th><th>How it plays</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Sequential</strong></td><td>Plays tracks in order, then stops. Anything sent while it's
+                  playing waits until the whole playlist finishes.</td></tr>
+                <tr><td><strong>Sequential, Interruptible</strong></td><td>Plays in order, but a new script or playlist
+                  interrupts it as soon as the current track finishes.</td></tr>
+                <tr><td><strong>Sequential, Repeatable</strong></td><td>Plays in order, then starts over from the top.
+                  Always interruptible.</td></tr>
+                <tr><td><strong>Shuffle</strong></td><td>Plays every track once in random order, then stops.</td></tr>
+                <tr><td><strong>Shuffle with Repeat</strong></td><td>Shuffles through all tracks, then reshuffles and
+                  goes again.</td></tr>
+                <tr><td><strong>Shuffle with Delay</strong></td><td>Shuffles through all tracks, waiting a delay
+                  between each.</td></tr>
+                <tr><td><strong>Shuffle with Delay and Repeat</strong></td><td>Shuffle with Delay that reshuffles and
+                  repeats once every track has played.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2><span class="h2-num">§</span>Playback settings</h2>
+          <p>Two settings sit under the name; each only applies to the types that support it, and greys out otherwise.</p>
+          <ul>
+            <li><strong>Repeat</strong> — <code>None</code>, <code>Count</code> (repeat a set number of times, entered
+              in the box beside it) or <code>Infinite</code>. Available on the <strong>Repeatable</strong> and
+              <strong>with Repeat</strong> types.</li>
+            <li><strong>Random Delay</strong> — the pause between tracks, in seconds. Leave it off for a fixed
+              <strong>Delay</strong>, or tick it to draw a random wait between a <strong>Min</strong> and
+              <strong>Max</strong>. Available on the <strong>Shuffle with Delay</strong> types.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Tracks</h2>
+          <p>Each track is one entry in the sequence. Set its <strong>type</strong>, then fill in the rest:</p>
+          <ul>
+            <li><strong>Script</strong> — search and select one of your scripts to play.</li>
+            <li><strong>Playlist</strong> — nest another playlist inside this one. Only plain
+              <strong>Sequential</strong> playlists can be nested (so a random playlist can't scramble its own
+              running order). <em>A Sequential playlist itself can't hold nested playlists.</em></li>
+            <li><strong>Wait</strong> — pause for a <strong>Track Duration</strong> in seconds. Tick
+              <strong>Random</strong> to wait a random time between a <strong>Min</strong> and <strong>Max</strong>
+              instead.</li>
+          </ul>
+          <figure class="shot">
+            <img src="assets/images/web/playlist-track-wait.png" alt="A Wait track with Random enabled, showing Min and Max duration fields" />
+            <figcaption>A <strong>Wait</strong> track with a random Min–Max duration.</figcaption>
+          </figure>
+          <p>Reorder tracks with the up/down arrows or by dragging the handle, and use <strong>Remove</strong> to drop
+            one.</p>
+
+          <h2><span class="h2-num">§</span>Save &amp; run</h2>
+          <p><strong>Save</strong> stores the playlist. From then on you can run it from the list's
+            <strong>play</strong> action, or trigger it from the remote. To play it right away while editing, save
+            first, then run it from the list.</p>
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">No infinite loops</span>
+              <p>If nested playlists reference each other in a way that would loop forever, the save is rejected and
+                the offending track is called out — swap or remove it and save again.</p>
+            </div>
+          </div>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
