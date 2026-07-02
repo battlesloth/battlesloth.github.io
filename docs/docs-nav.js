@@ -18,7 +18,6 @@
     },
     {
       title: "Using AstrOs",
-      note: "More chapters coming soon",
       items: [
         { num: "05", title: "The web app",        file: "web-app.html" },
         { num: "06", title: "Modules & hardware",  file: "modules.html",
@@ -41,6 +40,7 @@
         { num: "08", title: "Playlists",           file: "playlists.html" },
         { num: "09", title: "Remote control",      file: "remote.html" },
         { num: "10", title: "Firmware updates",    file: "firmware-updates.html" },
+        { num: "11", title: "Utility",             file: "utility.html" },
       ],
     },
   ];

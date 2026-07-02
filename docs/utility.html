@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utility · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Utility</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 11 · Using AstrOs</span>
+          <h1>Housekeeping.</h1>
+          <p class="lead">The <strong>Utility</strong> screen collects the odds and ends — the key that lets a
+            physical remote talk to the server, SD-card maintenance, log downloads and your password.</p>
+
+          <figure class="shot">
+            <img src="assets/images/web/utility.png" alt="The Utility screen: API Key with a Generate button, Format SD Card, Log Files download, and Password change" />
+            <figcaption>Four rows, four chores.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>API Key</h2>
+          <p>An <code>AstrOs.Screen</code> touchscreen remote authenticates with this key to pull the
+            <a class="inline" href="remote.html">remote layout</a> and fire actions. Select
+            <strong>Generate</strong> to create one, then enter it on the Screen device. Generating a new key
+            replaces the old one, so any remote using the old key stops working until you update it.</p>
+
+          <h2><span class="h2-num">§</span>Format SD Card</h2>
+          <p><strong>Format</strong> wipes the SD card in one or more nodes — the card that holds each node's
+            scripts, configuration and staged firmware (the one you prepped in
+            <a class="inline" href="firmware.html">Flashing Firmware</a>). Pick the controllers in the dialog
+            and the format is queued to run on the droid. Afterwards, re-<strong>Sync</strong> your
+            <a class="inline" href="modules.html">Modules</a> configuration and re-upload scripts so the node
+            has its data back.</p>
+
+          <h2><span class="h2-num">§</span>Log Files</h2>
+          <p><strong>Download</strong> grabs the server's logs as <code>astros_logs.zip</code>. If you hit a
+            bug, this is what to attach to a GitHub issue.</p>
+
+          <h2><span class="h2-num">§</span>Password</h2>
+          <p><strong>Change</strong> updates the password you <a class="inline" href="web-app.html">log in</a>
+            with. You'll need the current password, and the new one must be at least 8 characters. If you're
+            still on the default <code>password</code>, change it now.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
