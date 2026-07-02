@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remote Control · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Remote Control</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 09 · Using AstrOs</span>
+          <h1>Build your remote.</h1>
+          <p class="lead">The <strong>Remote Control Configuration</strong> screen turns your
+            <a class="inline" href="scripting.html">scripts</a> and
+            <a class="inline" href="playlists.html">playlists</a> into pages of big, mashable buttons —
+            then any phone on your droid's network becomes the remote.</p>
+
+          <h2><span class="h2-num">§</span>The layout</h2>
+          <p>The editor has three panes: your <strong>Pages</strong> on the left, the selected page's
+            <strong>3&thinsp;×&thinsp;3 button grid</strong> in the middle, and a live phone
+            <strong>preview</strong> on the right. The header keeps a running count of pages and assigned
+            actions, and holds the <strong>Save</strong> button.</p>
+          <figure class="shot">
+            <img src="assets/images/web/remote-config.png" alt="The Remote Control Configuration screen: a Pages list, a 3 by 3 grid of button cards, and a live phone preview" />
+            <figcaption>Pages on the left, the button grid in the middle, a live preview on the right.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Pages</h2>
+          <p>Each page is one screen of nine buttons on the remote. Select <strong>+</strong> to add a page,
+            and use a page's row actions to <strong>rename</strong>, <strong>duplicate</strong> or
+            <strong>delete</strong> it; drag the handle to reorder. Group buttons the way you perform —
+            a page for dome gags, a page for parade routines — and name pages so you can tell them apart
+            mid-show.</p>
+
+          <h2><span class="h2-num">§</span>Assign buttons</h2>
+          <p>Select <strong>Configure&nbsp;→</strong> on an empty slot to open the button editor. Pick from
+            the <strong>Scripts</strong> or <strong>Playlists</strong> tab (search if the list is long), or
+            choose <strong>None</strong> to leave the slot empty. An assigned card shows what it holds —
+            <strong>Edit</strong> swaps it for something else, <strong>Clear</strong> empties the slot.</p>
+          <figure class="shot">
+            <img src="assets/images/web/remote-button-editor.png" alt="The Configure Button dialog with Scripts and Playlists tabs, a search box, and a list of scripts to choose from" />
+            <figcaption>Each button fires one script or one playlist.</figcaption>
+          </figure>
+          <p>As you work, the phone preview on the right mirrors the selected page exactly — it's
+            display-only, so clicking it won't fire anything at the droid.</p>
+
+          <h2><span class="h2-num">§</span>Save it</h2>
+          <p>An <strong>Unsaved</strong> badge appears next to <strong>Save</strong> whenever you have
+            pending changes. Saving stores the layout on the server — there's nothing to push to the droid's
+            nodes, so unlike <a class="inline" href="modules.html">Modules</a> there is no separate
+            <strong>Sync</strong> step. The same saved layout also feeds an
+            <code>AstrOs.Screen</code> touchscreen remote, which picks it up when it syncs with the
+            server.</p>
+
+          <h2><span class="h2-num">§</span>Use it from your phone</h2>
+          <p>On a phone, browse to your server's address and log in — mobile browsers are sent straight to a
+            full-screen remote (and kept there; use a desktop browser for everything else). Tap a button and
+            the script or playlist fires immediately; swipe or use the arrows to move between pages. Tapping
+            the <strong>Connected</strong> chip flips to a droid status panel — tap again to get back to the
+            buttons.</p>
+          <figure class="shot narrow">
+            <img src="assets/images/web/remote-mobile.png" alt="The mobile remote: a page of large buttons in a 3 by 3 grid, page dots, and a red Stop All button" />
+            <figcaption>The mobile remote — one tap per action.</figcaption>
+          </figure>
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Add it to your home screen</span>
+              <p>Use your phone browser's <em>Add to Home Screen</em> so the remote opens full-screen with
+                one tap, like an app.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Stop All — the big red button</h2>
+          <p>At the bottom of the remote, <strong>Stop All</strong> halts every running script and playlist —
+            press and <em>hold</em> it to trigger (a quick tap won't, so a pocket-bump can't stop the show).
+            While stopped, the remote stays locked out and the button becomes <strong>Clear Panic</strong>;
+            hold that to re-enable control.</p>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Not an e-stop</span>
+              <p>Stop All halts AstrOs animations — it doesn't cut power to motors or electronics. For anything
+                safety-critical, keep a hardware kill switch between your batteries and your drive system.</p>
+            </div>
+          </div>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

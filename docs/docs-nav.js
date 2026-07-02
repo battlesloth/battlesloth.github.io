@@ -39,6 +39,7 @@
           ],
         },
         { num: "08", title: "Playlists",           file: "playlists.html" },
+        { num: "09", title: "Remote control",      file: "remote.html" },
       ],
     },
   ];
