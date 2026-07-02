@@ -40,6 +40,7 @@
         },
         { num: "08", title: "Playlists",           file: "playlists.html" },
         { num: "09", title: "Remote control",      file: "remote.html" },
+        { num: "10", title: "Firmware updates",    file: "firmware-updates.html" },
       ],
     },
   ];
