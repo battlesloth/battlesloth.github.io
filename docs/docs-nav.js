@@ -61,17 +61,31 @@
       let items = g.items
         .map((it) => {
           const active = it.file === here ? " active" : "";
-          let html =
+          const parent =
             '<a class="sb-item' + active + '" href="' + it.file + '">' +
             '<span class="sb-num">' + it.num + "</span>" +
             "<span>" + it.title + "</span></a>";
-          (it.children || []).forEach((c) => {
-            const ca = c.file === here ? " active" : "";
-            html +=
-              '<a class="sb-subitem' + ca + '" href="' + c.file + '">' +
-              "<span>" + c.title + "</span></a>";
-          });
-          return html;
+          const kids = it.children || [];
+          if (!kids.length) return parent;
+          // Branches with children collapse; the one holding the current
+          // page (parent or child) starts open.
+          const open = it.file === here || kids.some((c) => c.file === here);
+          const children = kids
+            .map((c) => {
+              const ca = c.file === here ? " active" : "";
+              return (
+                '<a class="sb-subitem' + ca + '" href="' + c.file + '">' +
+                "<span>" + c.title + "</span></a>"
+              );
+            })
+            .join("");
+          return (
+            '<div class="sb-branch' + (open ? " open" : "") + '">' +
+            '<div class="sb-row">' + parent +
+            '<button class="sb-toggle" type="button" aria-expanded="' + open + '"' +
+            ' aria-label="Toggle ' + it.title + ' sub-pages">›</button></div>' +
+            '<div class="sb-children">' + children + "</div></div>"
+          );
         })
         .join("");
       if (g.note) items += '<div class="sb-soon">' + g.note + "</div>";
@@ -115,6 +129,16 @@
     return prevHtml + nextHtml;
   }
 
+  function wireToggles() {
+    document.querySelectorAll(".sb-toggle").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const branch = btn.closest(".sb-branch");
+        const open = branch.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      })
+    );
+  }
+
   function wireMobile() {
     const btn = document.querySelector(".menu-btn");
     const scrim = document.querySelector(".nav-scrim");
@@ -143,6 +167,7 @@
     if (sb) sb.innerHTML = buildSidebar();
     const pn = document.getElementById("page-foot");
     if (pn) pn.innerHTML = buildPrevNext();
+    wireToggles();
     wireMobile();
     wireCopy();
   });
