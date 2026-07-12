@@ -67,6 +67,34 @@
             <img src="assets/images/web/maestro-channel-servo.png" alt="A Maestro channel set to Servo, showing Name, Inverted, and Min/Max/Home µs fields" />
             <figcaption>A channel set to Servo.</figcaption>
           </figure>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">What "Inverted?" does</span>
+              <p>Scripts drive a servo by <strong>position, 0–100%</strong>, and <strong>Min&nbsp;µs</strong> /
+                <strong>Max&nbsp;µs</strong> set the two ends of its travel. Normally <strong>0%</strong> maps to
+                <strong>Min&nbsp;µs</strong> and <strong>100%</strong> to <strong>Max&nbsp;µs</strong>. Turning on
+                <strong>Inverted?</strong> flips that mapping — <strong>Max&nbsp;µs</strong> becomes the
+                <strong>0%</strong> position and <strong>Min&nbsp;µs</strong> becomes the <strong>100%</strong>
+                position — so the same scripted value drives the servo to the opposite end of its travel. Handy for
+                a mirrored pair of servos that must move in opposite directions on the same command.</p>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Why position is a percentage</span>
+              <p>Scripts command servos in <strong>percent</strong> rather than raw microseconds for two reasons.
+                First, it keeps your scripts portable: if you swap in a different servo whose ends need different
+                <strong>Min&nbsp;µs</strong> / <strong>Max&nbsp;µs</strong> values, you update those two fields here
+                once — every script that drives the channel keeps working, with nothing to re-edit. Second, a
+                percentage is far easier to picture — <strong>0%</strong> is one end, <strong>50%</strong> the
+                middle, <strong>100%</strong> the other — than reasoning about raw pulse widths.</p>
+            </div>
+          </div>
+
           <p>An <strong>Output</strong> channel is a simple on/off line — just a <strong>Name</strong> and a
             <strong>Default High</strong> toggle for its power-on state.</p>
           <figure class="shot">

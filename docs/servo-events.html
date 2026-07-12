@@ -47,9 +47,30 @@
           <div class="callout tip">
             <div class="ic">✦</div>
             <div>
-              <span class="co-title">Position, Speed and Accel. come from the Maestro</span>
-              <p>These map to the <a class="inline" href="maestro.html">Pololu Maestro</a>'s own units. Set a
-                channel's travel limits and home on the Maestro; the script just drives it between them.</p>
+              <span class="co-title">How these map to the Maestro</span>
+              <p><strong>Speed</strong> and <strong>Accel.</strong> are the
+                <a class="inline" href="maestro.html">Pololu Maestro</a>'s own units
+                (<code>0</code>–<code>255</code>), passed straight through. <strong>Position</strong> is a
+                percentage of the travel you set on the servo's Maestro channel in
+                <a class="inline" href="modules.html">Modules</a> — its <strong>Min&nbsp;µs</strong>,
+                <strong>Max&nbsp;µs</strong> and <strong>Home&nbsp;µs</strong>, where you dial in how far the
+                servo should move <em>on the droid</em>. On the Pololu itself (in Maestro Control Center), set
+                that channel's min and max to the servo's <em>rated</em> full range — <strong>not</strong> the
+                droid limits; AstrOs keeps those in the module config and drives the servo between them.</p>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Why position is a percentage</span>
+              <p>Scripts command servos in <strong>percent</strong> rather than raw microseconds for two reasons.
+                First, it keeps your scripts portable: if you swap in a different servo whose ends need different
+                <strong>Min&nbsp;µs</strong> / <strong>Max&nbsp;µs</strong> values, you update those two fields on
+                the servo's <a class="inline" href="maestro.html">Maestro channel</a> once — every script that
+                drives the channel keeps working, with nothing to re-edit. Second, a percentage is far easier to
+                picture — <strong>0%</strong> is one end, <strong>50%</strong> the middle, <strong>100%</strong>
+                the other — than reasoning about raw pulse widths.</p>
             </div>
           </div>
 
