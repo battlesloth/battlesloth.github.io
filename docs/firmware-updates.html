@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Firmware Updates · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Firmware Updates</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 10 · Using AstrOs</span>
+          <h1>Update your fleet, wirelessly.</h1>
+          <p class="lead">You only ever <a class="inline" href="firmware.html">flash over USB</a> once. After
+            that, the <strong>Firmware</strong> screen pushes new <code>AstrOs.ESP</code> releases to your
+            whole fleet over the air — the server sends the file to the master, and the master forwards it to
+            every padawan over ESP-NOW.</p>
+
+          <figure class="shot">
+            <img src="assets/images/web/firmware-update.png" alt="The Firmware screen: a source strip with a selected GitHub release, an update topology diagram, and a controllers list with per-node versions" />
+            <figcaption>Pick a release, pick your controllers, flash.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Pick a source</h2>
+          <p>The strip at the top chooses what to push:</p>
+          <ul>
+            <li><strong>GitHub</strong> — pulls the official <code>AstrOs.ESP</code> releases straight from
+              GitHub. Pick one from the dropdown; the newest is tagged <strong>Latest</strong> and test builds
+              are tagged <strong>Pre-release</strong>.</li>
+            <li><strong>Upload</strong> — push your own build instead. Use the <em>app</em> image
+              (<code>metro_s3-app.bin</code>) from your PlatformIO build — the full
+              <code>-flash.bin</code> image is only for <a class="inline" href="firmware.html">USB
+              flashing</a>.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Pick your controllers</h2>
+          <p>The <strong>Controllers</strong> list shows every node with its current version and what it would
+            move to (<code>1.1.0 → 1.2.0</code>). Tick the ones to update — or <strong>Select all</strong> —
+            and the action bar sums up what will be pushed. A few guard rails:</p>
+          <ul>
+            <li><strong>Offline nodes can't be selected.</strong> Power everything on first — the
+              <strong>Update topology</strong> diagram and the status dots show who's reachable.</li>
+            <li><strong>Up-to-date nodes</strong> are marked, so you don't re-flash for nothing.</li>
+            <li><strong>Downgrades are blocked</strong> by default. To push an <em>older</em> version, switch
+              on <strong>Allow downgrades</strong> — it resets when you reload the page, so it can't be left
+              on by accident.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Flash</h2>
+          <p>Select <strong>Flash firmware</strong> and confirm. The dialog restates the source and targets and
+            warns about power for a reason:</p>
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Keep everything powered</span>
+              <p>Don't cut power to any selected controller until the update completes and the node reboots —
+                interrupting a flash can leave a controller bricked. (If that happens, recover it over
+                <a class="inline" href="firmware.html">USB</a>.)</p>
+            </div>
+          </div>
+          <p>The update then walks through its stages, live: <strong>Download</strong> (the master receives
+            the file), <strong>Transfer</strong> and <strong>Receive</strong> (master → padawans over
+            ESP-NOW), <strong>Flash</strong> (write the firmware), <strong>Verify</strong> (checksum) and
+            <strong>Reboot</strong>. Each controller shows its own progress, and it's safe to refresh or
+            leave the page mid-update — coming back rejoins the running job. Only one update can run at a
+            time; if someone else is mid-flash, the screen says so and waits.</p>
+
+          <h2><span class="h2-num">§</span>Did it take?</h2>
+          <p>When the job finishes you'll get <strong>✓ All controllers updated</strong> — or a failure bar
+            naming which node failed at which stage. A failed node is usually just a flaky link: check its
+            power and ESP-NOW range, then run the update again for that node. Afterwards, glance at the
+            <a class="inline" href="web-app.html">Status</a> dashboard — every node should be green on the
+            new version.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

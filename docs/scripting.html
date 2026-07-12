@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scripting Animations · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Scripting</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 07 · Using AstrOs</span>
+          <h1>Script an animation.</h1>
+          <p class="lead">A <strong>script</strong> is a timeline of timed events across one or more channels —
+            how you choreograph your droid's servos, sound, lights and motion. You build scripts in the Scripter.</p>
+
+          <h2><span class="h2-num">§</span>The Scripts list</h2>
+          <p>The <strong>Scripts</strong> screen lists your scripts with their <strong>Status</strong> and any
+            <strong>Playlists</strong> they belong to. <strong>Filter</strong> to find one, use a row's
+            <strong>Actions</strong> to duplicate, upload or run it, or select <strong>New</strong> to start one.</p>
+          <figure class="shot">
+            <img src="assets/images/web/scripts-list.png" alt="The Scripts list table with filter and New button" />
+            <figcaption>The Scripts list.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <p>A script has a <strong>Name</strong> and <strong>Description</strong>, then a timeline with one track
+            per channel. The ruler shows time; use the zoom controls to move in and out. <strong>Save</strong>
+            stores the script and <strong>Test</strong> runs it on the droid.</p>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-editor.png" alt="The Scripter timeline editor with a channel track" />
+            <figcaption>The Scripter — one track per channel.</figcaption>
+          </figure>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Navigating the timeline</span>
+              <p>Beyond the on-screen zoom buttons, you can work the timeline by mouse:
+                <strong>Ctrl&nbsp;+&nbsp;scroll wheel</strong> zooms in and out, the
+                <strong>middle mouse button</strong> grabs the timeline to pan it around, and you can
+                <strong>click-drag any event</strong> along its track to change when it fires.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Add a channel</h2>
+          <p>Select <strong>Add Channel</strong>, then choose a <strong>controller</strong> (Body, Core or Dome),
+            a <strong>channel type</strong>, and the specific <strong>channel</strong>. Channels come from the
+            hardware you set up in <a class="inline" href="modules.html">Modules</a>, so configure and Sync your
+            modules first.</p>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-add-channel.png" alt="The Add Channel modal: controller, channel type, channel" />
+            <figcaption>Adding a channel pulls from your Modules hardware.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Channel controls</h2>
+          <p>Each channel in the track list carries three icon buttons for managing it:</p>
+          <ul>
+            <li><strong>Swap</strong> (swap icon) — reassign the track to a different channel of the same type.
+              The events you've already placed stay put; they just drive the channel you pick instead. If that
+              channel is already in the script the two exchange places; if it's unused, the track simply moves
+              onto it — handy when you built a track against the wrong channel or rewired the droid.</li>
+            <li><strong>Test</strong> (play icon) — fire the channel on the droid on demand. It opens the event
+              editor in a test mode where you set a value and send it live, so you can confirm a servo or device
+              responds without adding an event to the script. Your nodes must be powered and connected.</li>
+            <li><strong>Delete</strong> (trash icon) — remove the track and all its events from the script.
+              You'll be asked to confirm first.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Add events</h2>
+          <p>Click a channel's track at the moment you want something to happen. The editor that opens depends on
+            the channel type:</p>
+          <ul>
+            <li><a class="inline" href="servo-events.html">Servo events</a> — move a servo.</li>
+            <li><a class="inline" href="gpio-events.html">GPIO events</a> — switch an output.</li>
+            <li><a class="inline" href="audio-events.html">Audio events</a> — play HCR sound.</li>
+            <li><a class="inline" href="kangaroo-events.html">Kangaroo events</a> — drive a Kangaroo X2.</li>
+            <li><a class="inline" href="i2c-events.html">I²C events</a> — send to an I²C device.</li>
+            <li><a class="inline" href="uart-events.html">Serial (UART) events</a> — send to a serial device.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Test &amp; save</h2>
+          <p><strong>Test</strong> sends the script to a connected droid and plays it so you can check the timing.
+            <strong>Save</strong> stores it — from there you can add it to a
+            <a class="inline" href="playlists.html">playlist</a> or trigger it from the
+            <a class="inline" href="remote.html">remote</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

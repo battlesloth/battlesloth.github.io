@@ -18,9 +18,30 @@
     },
     {
       title: "Using AstrOs",
-      soon: true,
-      note: "Scripting, playlists & remote — coming soon",
-      items: [],
+      items: [
+        { num: "05", title: "The web app",        file: "web-app.html" },
+        { num: "06", title: "Modules & hardware",  file: "modules.html",
+          children: [
+            { title: "Maestro", file: "maestro.html" },
+            { title: "Other serial", file: "other-serial.html" },
+            { title: "I²C modules", file: "i2c.html" },
+          ],
+        },
+        { num: "07", title: "Scripting animations", file: "scripting.html",
+          children: [
+            { title: "Servo events", file: "servo-events.html" },
+            { title: "GPIO events", file: "gpio-events.html" },
+            { title: "Audio events", file: "audio-events.html" },
+            { title: "Kangaroo events", file: "kangaroo-events.html" },
+            { title: "I²C events", file: "i2c-events.html" },
+            { title: "Serial events", file: "uart-events.html" },
+          ],
+        },
+        { num: "08", title: "Playlists",           file: "playlists.html" },
+        { num: "09", title: "Remote control",      file: "remote.html" },
+        { num: "10", title: "Firmware updates",    file: "firmware-updates.html" },
+        { num: "11", title: "Utility",             file: "utility.html" },
+      ],
     },
   ];
 
@@ -40,14 +61,34 @@
       let items = g.items
         .map((it) => {
           const active = it.file === here ? " active" : "";
-          return (
+          const parent =
             '<a class="sb-item' + active + '" href="' + it.file + '">' +
             '<span class="sb-num">' + it.num + "</span>" +
-            "<span>" + it.title + "</span></a>"
+            "<span>" + it.title + "</span></a>";
+          const kids = it.children || [];
+          if (!kids.length) return parent;
+          // Branches with children collapse; the one holding the current
+          // page (parent or child) starts open.
+          const open = it.file === here || kids.some((c) => c.file === here);
+          const children = kids
+            .map((c) => {
+              const ca = c.file === here ? " active" : "";
+              return (
+                '<a class="sb-subitem' + ca + '" href="' + c.file + '">' +
+                "<span>" + c.title + "</span></a>"
+              );
+            })
+            .join("");
+          return (
+            '<div class="sb-branch' + (open ? " open" : "") + '">' +
+            '<div class="sb-row">' + parent +
+            '<button class="sb-toggle" type="button" aria-expanded="' + open + '"' +
+            ' aria-label="Toggle ' + it.title + ' sub-pages">›</button></div>' +
+            '<div class="sb-children">' + children + "</div></div>"
           );
         })
         .join("");
-      if (g.soon && g.note) items += '<div class="sb-soon">' + g.note + "</div>";
+      if (g.note) items += '<div class="sb-soon">' + g.note + "</div>";
       groups +=
         '<div class="sb-group' + (g.soon ? " is-soon" : "") + '">' +
         '<div class="sb-group-title">' + g.title + "</div>" +
@@ -66,7 +107,12 @@
 
   function buildPrevNext() {
     const flat = [];
-    NAV.forEach((g) => g.items.forEach((it) => flat.push(it)));
+    NAV.forEach((g) =>
+      g.items.forEach((it) => {
+        flat.push(it);
+        (it.children || []).forEach((c) => flat.push(c));
+      })
+    );
     const here = currentFile();
     const i = flat.findIndex((it) => it.file === here);
     if (i < 0) return "";
@@ -83,12 +129,22 @@
     return prevHtml + nextHtml;
   }
 
+  function wireToggles() {
+    document.querySelectorAll(".sb-toggle").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const branch = btn.closest(".sb-branch");
+        const open = branch.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      })
+    );
+  }
+
   function wireMobile() {
     const btn = document.querySelector(".menu-btn");
     const scrim = document.querySelector(".nav-scrim");
     if (btn) btn.addEventListener("click", () => document.body.classList.toggle("nav-open"));
     if (scrim) scrim.addEventListener("click", () => document.body.classList.remove("nav-open"));
-    document.querySelectorAll(".sb-item").forEach((a) =>
+    document.querySelectorAll(".sb-item, .sb-subitem").forEach((a) =>
       a.addEventListener("click", () => document.body.classList.remove("nav-open"))
     );
   }
@@ -111,6 +167,7 @@
     if (sb) sb.innerHTML = buildSidebar();
     const pn = document.getElementById("page-foot");
     if (pn) pn.innerHTML = buildPrevNext();
+    wireToggles();
     wireMobile();
     wireCopy();
   });

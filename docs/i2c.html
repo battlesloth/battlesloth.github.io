@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>I²C Modules · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>I²C Modules</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Modules &amp; Hardware · I²C</span>
+          <h1>I²C modules.</h1>
+          <p class="lead">I²C modules are peripherals on the node's STEMMA QT / I²C bus that you address from your
+            scripts. The status OLED is detected automatically and doesn't appear here — this is for other I²C
+            devices.</p>
+
+          <h2><span class="h2-num">§</span>Add one</h2>
+          <p>On the <a class="inline" href="modules.html">Modules</a> screen, expand the location whose node the
+            device is wired to, select <strong>+</strong> on <strong>I2C Modules</strong>, choose
+            <strong>Generic</strong>, then <strong>Add Module</strong>. Expand the new row to configure it.</p>
+
+          <h2><span class="h2-num">§</span>Settings</h2>
+          <figure class="shot">
+            <img src="assets/images/web/i2c-generic.png" alt="A Generic I2C module showing its Name and I²C address" />
+            <figcaption>A Generic I²C module: a name and an address.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Name</strong> — a label for the device, so you can tell it apart in scripts.</li>
+            <li><strong>I²C address</strong> — the device's address on the bus (<code>0</code>–<code>127</code>).
+              Match it to the address the device is set to.</li>
+          </ul>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Only Generic is available today</span>
+              <p>The <strong>Human Cyborg Relations</strong> and <strong>PWM Board</strong> I²C types appear in the
+                list but aren't implemented yet — selecting them just shows a "not implemented" notice. Use
+                <strong>Generic</strong> for now.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="modules.html">Modules &amp; hardware</a> to finish this node, then
+            <strong>Save</strong> and <strong>Sync</strong>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

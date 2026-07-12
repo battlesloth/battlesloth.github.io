@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kangaroo Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Kangaroo Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>Kangaroo events.</h1>
+          <p class="lead">A Kangaroo event drives a
+            <a class="inline" href="other-serial.html">Kangaroo&nbsp;X2</a> motion controller — the two-channel
+            board that runs closed-loop motors like a dome drive or leg tilt. One event can command both of its
+            channels at once.</p>
+
+          <h2><span class="h2-num">§</span>Add a Kangaroo event</h2>
+          <p>Add a <strong>Kangaroo&nbsp;X2</strong> channel to your script (set the module up first under
+            <a class="inline" href="other-serial.html">Other serial modules</a>), then click its track at the time
+            you want the move to happen. The Kangaroo event editor opens.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <p>The editor has an identical block for each of the Kangaroo's two channels, labelled with the names you
+            gave them when you set up the module.</p>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-kangaroo-event.png" alt="The Kangaroo event editor with per-channel Action, Speed and Position fields" />
+            <figcaption>The Kangaroo event editor — one block per channel.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the command fires.</li>
+            <li><strong>Action</strong> — what the channel does:
+              <ul>
+                <li><strong>None</strong> — leave this channel untouched.</li>
+                <li><strong>Start</strong> — power up / home the channel so it can take commands.</li>
+                <li><strong>Home</strong> — send it to its home position.</li>
+                <li><strong>Speed</strong> — run continuously at a set speed.</li>
+                <li><strong>Position</strong> — move to a target position (at the given speed).</li>
+              </ul>
+            </li>
+            <li><strong>Speed</strong> — enabled for the <strong>Speed</strong> and <strong>Position</strong> actions.</li>
+            <li><strong>Position</strong> — enabled for the <strong>Position</strong> action only.</li>
+          </ul>
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Speed and Position are Kangaroo units</span>
+              <p>The numbers map to the Kangaroo's own units, which depend on how you tuned the board and its
+                feedback. Set each channel up and teach its limits on the Kangaroo first; the script just drives it
+                within them.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modules &amp; Hardware · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Modules &amp; Hardware</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 06 · Using AstrOs</span>
+          <h1>Tell each node what it controls.</h1>
+          <p class="lead">The <strong>Modules</strong> screen is where you map your droid's hardware to its
+            nodes — which node controls the Body, Core and Dome, and exactly which servos, serial devices, I²C
+            peripherals and GPIO outputs each one owns.</p>
+
+          <div class="callout warn">
+            <div class="ic">!</div>
+            <div>
+              <span class="co-title">Before you start</span>
+              <p>Your nodes should already be <a class="inline" href="pairing.html">paired</a>, the master
+                connected to the server, and every node powered on. Modules you can't see can't be configured.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Save vs. Sync</h2>
+          <p>Two buttons sit at the top of the Modules screen, and the difference matters:</p>
+          <ul>
+            <li><strong>Save</strong> writes your configuration to the <em>server</em>. Nothing reaches the
+              droid yet — it's safe to save work in progress.</li>
+            <li><strong>Sync</strong> pushes the saved configuration <em>out to the nodes</em>. The master
+              forwards each padawan its slice. Nodes must be online to receive it.</li>
+          </ul>
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">Save first, then Sync</span>
+              <p>Get the configuration right and <strong>Save</strong> it, then <strong>Sync</strong> once your
+                nodes are powered and connected.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>The three locations</h2>
+          <p>AstrOs groups a droid into three locations — <strong>Body</strong>, <strong>Core</strong> and
+            <strong>Dome</strong>. Each is a collapsible card. The <strong>Body</strong> is always the
+            <strong>master</strong>; <strong>Core</strong> and <strong>Dome</strong> are padawans (or left
+            disabled if you don't have them).</p>
+          <figure class="shot">
+            <img src="assets/images/web/modules-cards.png" alt="Modules screen with Body, Core and Dome location cards" />
+            <figcaption>The three location cards, collapsed.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Step 1 — Assign a controller</h2>
+          <p>Expand a location and pick its controller from the dropdown. <strong>Body</strong> is locked to
+            <strong>Master Controller</strong>; for <strong>Core</strong> and <strong>Dome</strong>, choose the
+            padawan that lives there (or leave it <strong>Disabled</strong>).</p>
+          <figure class="shot">
+            <img src="assets/images/web/modules-controller.png" alt="Expanded Body module showing the Controller Select dropdown and hardware sections" />
+            <figcaption>Each location: a controller, then its hardware.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Step 2 — Configure its hardware</h2>
+          <p>Under each location are three hardware sections. Add only what that node actually has wired up
+            (see <a class="inline" href="hardware.html">Hardware &amp; Wiring</a>).</p>
+
+          <h3>Serial modules</h3>
+          <p>Select <strong>+</strong> on <strong>Serial Modules</strong> and choose the device type. For
+            servos, pick <strong>Pololu Maestro</strong>; sound and motion boards (such as Human Cyborg
+            Relations or the Kangaroo X2) and a <strong>Generic</strong> device are also options. <em>Servos
+            run through the Maestro — there's no separate servo board to configure.</em>
+            See <a class="inline" href="maestro.html">Configure a Pololu Maestro</a> for its settings, or
+            <a class="inline" href="other-serial.html">Other serial modules</a> for the rest.</p>
+          <figure class="shot">
+            <img src="assets/images/web/modules-serial.png" alt="Adding a serial module and choosing Pololu Maestro" />
+            <figcaption>Servos and sound run over a serial module.</figcaption>
+          </figure>
+
+          <h3>I²C modules</h3>
+          <p>Select <strong>+</strong> on <strong>I2C Modules</strong> and choose the device type to add an
+            I²C peripheral on the STEMMA QT bus. See <a class="inline" href="i2c.html">I²C modules</a> for the
+            details.</p>
+          <figure class="shot">
+            <img src="assets/images/web/modules-i2c.png" alt="Adding an I2C module to a location" />
+            <figcaption>I²C devices share the STEMMA QT bus.</figcaption>
+          </figure>
+
+          <h3>GPIO configuration</h3>
+          <p>Open <strong>GPIO Configuration</strong> to set up the node's ten on/off output channels —
+            listed <strong>Channel&nbsp;0</strong>–<strong>9</strong>, wired to GPIO <code>D2</code>–<code>D11</code>.
+            Each channel has a <strong>Name</strong>, an <strong>Enabled</strong> toggle, and a
+            <strong>Default High?</strong> toggle that sets its power-on state — for relays, lights, smoke, or
+            anything you switch from an animation.</p>
+          <figure class="shot">
+            <img src="assets/images/web/modules-gpio.png" alt="GPIO configuration showing channels with name, enabled and default-high toggles" />
+            <figcaption>Ten switchable GPIO outputs per node.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Step 3 — Save, then Sync</h2>
+          <p>When every location is mapped, select <strong>Save</strong>. Then, with your nodes powered and the
+            master connected, select <strong>Sync</strong> to push the configuration out to the droid.</p>
+
+          <h2><span class="h2-num">§</span>Confirm it took</h2>
+          <p>No need to leave this screen — each location's header carries a status icon that reads out its
+            node at a glance. A <strong>green check</strong> means the node is online and in sync. A
+            <strong>yellow warning</strong> means it still needs syncing — <strong>Save</strong> and
+            <strong>Sync</strong> again with the node powered and online. A <strong>red warning</strong> means
+            the node's firmware is out of date (see <a class="inline" href="firmware-updates.html">Firmware
+            Updates</a>), and a <strong>grey question mark</strong> means the node is offline. Hover any icon
+            for the node's firmware version and details.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

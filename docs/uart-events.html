@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serial (UART) Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Serial Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>Serial (UART) events.</h1>
+          <p class="lead">A serial event sends a raw command over a
+            <a class="inline" href="other-serial.html">generic serial</a> channel at a point on the timeline — the
+            catch-all for UART devices that don't have a dedicated editor of their own.</p>
+
+          <h2><span class="h2-num">§</span>Add a serial event</h2>
+          <p>Add a <strong>Generic</strong> serial channel to your script (set the module up first under
+            <a class="inline" href="other-serial.html">Other serial modules</a>), then click its track at the time
+            you want the command sent. The serial event editor opens.</p>
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Dedicated devices have their own editors</span>
+              <p>A <a class="inline" href="maestro.html">Maestro</a> uses the
+                <a class="inline" href="servo-events.html">servo</a> and
+                <a class="inline" href="gpio-events.html">GPIO</a> editors; a
+                <a class="inline" href="kangaroo-events.html">Kangaroo&nbsp;X2</a> and an
+                <a class="inline" href="audio-events.html">HCR</a> board have theirs. Use a serial event for any
+                <em>other</em> UART device.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-uart-event.png" alt="The serial event editor with Event Time and a Serial Command field" />
+            <figcaption>The serial event editor.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the command is sent.</li>
+            <li><strong>Serial Command</strong> — the text to send over the wire. AstrOs transmits it to the device
+              as-is, so use whatever command syntax that device expects.</li>
+          </ul>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

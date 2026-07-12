@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servo Events · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>Servo Events</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Scripting · Events</span>
+          <h1>Servo events.</h1>
+          <p class="lead">A servo event moves a servo to a position at a point on the timeline. Add servo events
+            to a <strong>Servo</strong> channel to animate panels, periscopes, arms and the like.</p>
+
+          <h2><span class="h2-num">§</span>Add a servo event</h2>
+          <p>Add a <strong>Servo</strong> channel to your script (see
+            <a class="inline" href="scripting.html">Scripting animations</a>), then click its track at the time
+            you want the move to happen. The servo event editor opens.</p>
+
+          <h2><span class="h2-num">§</span>The editor</h2>
+          <figure class="shot">
+            <img src="assets/images/web/scripter-servo-event.png" alt="The servo event editor with Event Time, Position, Speed and Accel. fields" />
+            <figcaption>The servo event editor.</figcaption>
+          </figure>
+          <ul>
+            <li><strong>Event Time (seconds)</strong> — where on the timeline the move happens.</li>
+            <li><strong>Position</strong> — the target, <code>0</code>–<code>100%</code> of the servo's travel.
+              Use <code>-1</code> to send it to its <strong>Home</strong> position.</li>
+            <li><strong>Speed</strong> — how fast it travels, <code>0</code>–<code>255</code>.
+              <code>0</code> is unlimited (as fast as the servo can go).</li>
+            <li><strong>Accel.</strong> — how hard it ramps up to speed, <code>0</code>–<code>255</code>.
+              <code>0</code> is unlimited.</li>
+          </ul>
+          <div class="callout tip">
+            <div class="ic">✦</div>
+            <div>
+              <span class="co-title">How these map to the Maestro</span>
+              <p><strong>Speed</strong> and <strong>Accel.</strong> are the
+                <a class="inline" href="maestro.html">Pololu Maestro</a>'s own units
+                (<code>0</code>–<code>255</code>), passed straight through. <strong>Position</strong> is a
+                percentage of the travel you set on the servo's Maestro channel in
+                <a class="inline" href="modules.html">Modules</a> — its <strong>Min&nbsp;µs</strong>,
+                <strong>Max&nbsp;µs</strong> and <strong>Home&nbsp;µs</strong>, where you dial in how far the
+                servo should move <em>on the droid</em>. On the Pololu itself (in Maestro Control Center), set
+                that channel's min and max to the servo's <em>rated</em> full range — <strong>not</strong> the
+                droid limits; AstrOs keeps those in the module config and drives the servo between them.</p>
+            </div>
+          </div>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Why position is a percentage</span>
+              <p>Scripts command servos in <strong>percent</strong> rather than raw microseconds for two reasons.
+                First, it keeps your scripts portable: if you swap in a different servo whose ends need different
+                <strong>Min&nbsp;µs</strong> / <strong>Max&nbsp;µs</strong> values, you update those two fields on
+                the servo's <a class="inline" href="maestro.html">Maestro channel</a> once — every script that
+                drives the channel keeps working, with nothing to re-edit. Second, a percentage is far easier to
+                picture — <strong>0%</strong> is one end, <strong>50%</strong> the middle, <strong>100%</strong>
+                the other — than reasoning about raw pulse widths.</p>
+            </div>
+          </div>
+
+          <p>Back to <a class="inline" href="scripting.html">Scripting animations</a>.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>

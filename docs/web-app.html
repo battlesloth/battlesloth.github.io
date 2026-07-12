@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The web app · AstrOs Setup Guide</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="astros-docs.css" />
+</head>
+<body>
+  <div class="nav-scrim"></div>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="content-wrap">
+      <header class="topbar">
+        <div class="crumbs">
+          <button class="menu-btn"><span class="bars"><i></i><i></i><i></i></span> Menu</button>
+          <span>Setup Guide</span><span class="sep">/</span><b>The Web App</b>
+        </div>
+      </header>
+      <main class="content">
+        <article>
+          <span class="section-tag">Chapter 05 · Using AstrOs</span>
+          <h1>Use the AstrOs web app.</h1>
+          <p class="lead">With your nodes flashed and paired, everything else happens in
+            <code>AstrOs.Server</code> — the web app where you configure hardware, script animations,
+            build playlists and bring your droid to life.</p>
+
+          <div class="callout note">
+            <div class="ic">i</div>
+            <div>
+              <span class="co-title">Active Development</span>
+              <p>AstrOs is under active development, so the web app may look slightly different from the
+                screenshots here. The flow stays the same.</p>
+            </div>
+          </div>
+
+          <h2><span class="h2-num">§</span>Log in</h2>
+          <p>Browse to your server's address (from <a class="inline" href="server.html">Server Setup</a>).
+            The app opens to a single password prompt — enter your server password and select
+            <strong>Login</strong>. The default password is <code>password</code>. Make sure to change it after your
+            first login on the <a class="inline" href="utility.html">Utility</a> page.</p>
+          <figure class="shot">
+            <img src="assets/images/web/login.png" alt="AstrOs web app login screen — a single password field and Login button" />
+            <figcaption>The login screen — password only.</figcaption>
+          </figure>
+
+          <h2><span class="h2-num">§</span>Find your way around</h2>
+          <p>The menu (top-left) opens the screens you'll use. For setup you'll work through them roughly in
+            this order:</p>
+          <ul>
+            <li><strong>Modules</strong> — tell each node what hardware it controls. <a class="inline" href="modules.html">Start here →</a></li>
+            <li><strong>Scripts &amp; Playlists</strong> — <a class="inline" href="scripting.html">author animations</a>
+              and <a class="inline" href="playlists.html">sequence them</a>.</li>
+            <li><strong>Remote</strong> — <a class="inline" href="remote.html">configure the touchscreen / mobile remote</a>.</li>
+            <li><strong>Firmware</strong> — <a class="inline" href="firmware-updates.html">push OTA updates to your nodes</a>.</li>
+            <li><strong>Utility</strong> — <a class="inline" href="utility.html">housekeeping</a>: the remote's API
+              key, SD-card formatting, logs and your password.</li>
+          </ul>
+
+          <h2><span class="h2-num">§</span>Your home base: Status</h2>
+          <p>The app opens on the <strong>Status</strong> dashboard — a live view of every node and the health
+            of its link to the server. Grey indicates a node is offline, red indicates a node's firmware is not compatible with the server and needs updating, and yellow indicates a node's configuration is out of sync.</p>
+          <figure class="shot">
+            <img src="assets/images/web/status.png" alt="AstrOs Status dashboard showing node health" />
+            <figcaption>The Status dashboard — your at-a-glance health check.</figcaption>
+          </figure>
+
+          <p>First stop: tell each node what it controls.</p>
+        </article>
+        <nav class="page-foot" id="page-foot"></nav>
+      </main>
+    </div>
+  </div>
+  <script src="docs-nav.js"></script>
+</body>
+</html>
